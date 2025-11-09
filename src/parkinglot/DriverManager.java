@@ -10,15 +10,19 @@ private DriverManager() {
         Driver driver = new Driver("1234", "John Doe", "12345678", MembershipType.NONE, null, new ArrayList<>());
         driver.addVehicle(new Vehicle("AB123", VehicleType.PRIVATE, driver));
         driver.addVehicle(new Vehicle("XY789", VehicleType.VAN, driver));
+        this.addDriver(driver);
         driver = new Driver("1111", "Chris Wong", "87654321", MembershipType.DAILY, LocalDateTime.now().plusDays(10), new ArrayList<>());
         driver.addVehicle(new Vehicle("CD123", VehicleType.TRUCK_3_5T, driver));
         driver.addVehicle(new Vehicle("ST789", VehicleType.VAN, driver));
+        this.addDriver(driver);
         driver = new Driver("2222", "Eric Chan", "12121212", MembershipType.MONTHLY, LocalDateTime.now().plusMonths(10), new ArrayList<>());
         driver.addVehicle(new Vehicle("EF123", VehicleType.TRUCK_5_5T, driver));
         driver.addVehicle(new Vehicle("PQ789", VehicleType.VAN, driver));
+        this.addDriver(driver);
         driver = new Driver("3333", "Kevin Man", "33333333", MembershipType.ANNUALLY, LocalDateTime.now().plusYears(1), new ArrayList<>());
         driver.addVehicle(new Vehicle("GH123", VehicleType.TRUCK_5_5T, driver));
         driver.addVehicle(new Vehicle("JK789", VehicleType.VAN, driver));
+        this.addDriver(driver);
     }
 
     public static DriverManager getInstance() {
