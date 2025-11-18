@@ -1,4 +1,4 @@
-package src.parkinglot;
+package parkinglot;
 public class Staff {
     private String staffID;
     private String name;

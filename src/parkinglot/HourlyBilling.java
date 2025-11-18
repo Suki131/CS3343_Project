@@ -1,6 +1,10 @@
-package src.parkinglot;
+package parkinglot;
+
+import java.time.Duration;
+import java.time.LocalDateTime;
+
 public class HourlyBilling implements BillingStrategy {
-    private static double HOURLY_RATE = 5.0;
+    private double HOURLY_RATE = 5.0;
     private static final HourlyBilling INSTANCE = new HourlyBilling();
 
     private HourlyBilling() {
@@ -10,22 +14,33 @@ public class HourlyBilling implements BillingStrategy {
     public static HourlyBilling getInstance() {
         return INSTANCE;
     }
-
+    
     @Override
     public double calculateBill(Ticket ticket) {
-        long hoursParked = java.time.Duration.between(ticket.getEntryTime(), ticket.getExitTime()).toHours();
-        System.out.println("Hours parked: " + hoursParked);
-        System.out.println("Hourly rate: " + HOURLY_RATE);
+        LocalDateTime entry = ticket.getEntryTime();
+        LocalDateTime exit = ticket.getExitTime();
+
+        Duration duration = Duration.between(entry, exit);
+        long minutes = duration.toMinutes();
+        
+        long hoursParked = (minutes + 59) / 60;
+
+        hoursParked = Math.max(1, hoursParked);
+
         return hoursParked * HOURLY_RATE;
     }
 
     @Override
     public boolean setFeeRate(double fee){
-        HOURLY_RATE = fee;
-        if (HOURLY_RATE != fee){
-            return false;
-        } else {
+        this.HOURLY_RATE = fee;
+        if (HOURLY_RATE == fee){
             return true;
         }
+        return false;
+    }
+    
+    @Override
+    public double getFeeRate() {
+    	return HOURLY_RATE;
     }
 }

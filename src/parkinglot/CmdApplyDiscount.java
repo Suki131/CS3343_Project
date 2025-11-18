@@ -1,12 +1,10 @@
-package src.parkinglot;
+package parkinglot;
 import java.util.Scanner;
 public class CmdApplyDiscount implements StaffCommand {
 
     @Override
     public void execute(String cmdName, Staff staff) {
         DiscountStrategy discountStrategy = null;
-        // Implementation for applying a discount
-        // Here you can add logic to apply discount to a parking fee
         boolean continous1 = true;
         Vehicle vehicle = null;
         Driver driver = null;

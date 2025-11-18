@@ -1,4 +1,4 @@
-package src.parkinglot;
+package parkinglot;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -35,7 +35,7 @@ public class TicketManager {
 
 
         List<Ticket> history = ticketHistory.get(vehicle);
-        if (history == null || history.isEmpty()) {
+        if (history == null) {
             System.out.println("No ticket history found for vehicle: " + vehicle.getLicensePlate());
             return;
         }

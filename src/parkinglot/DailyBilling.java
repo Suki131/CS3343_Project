@@ -1,7 +1,10 @@
-package src.parkinglot;
+package parkinglot;
+
+import java.time.LocalDate;
+
 public class DailyBilling implements BillingStrategy {
     private double DAILY_RATE = 0.0; 
-    private static final DailyBilling INSTANCE = new DailyBilling();
+    private static DailyBilling INSTANCE = new DailyBilling();
 
     private DailyBilling() {
         DAILY_RATE = 0.0;
@@ -13,16 +16,24 @@ public class DailyBilling implements BillingStrategy {
 
     @Override
     public double calculateBill(Ticket ticket) {
-        long daysParked = java.time.Duration.between(ticket.getEntryTime(), ticket.getExitTime()).toDays();
-        return daysParked * DAILY_RATE;
+        LocalDate entryDate = ticket.getEntryTime().toLocalDate();
+        LocalDate exitDate = ticket.getExitTime().toLocalDate();
+
+        long daysParked = java.time.temporal.ChronoUnit.DAYS.between(entryDate, exitDate);
+
+        long billableDays = Math.max(1, daysParked);
+
+        return billableDays * DAILY_RATE;
     }
 
     @Override
     public boolean setFeeRate(double fee){
-        if (DAILY_RATE != fee){
-            return false;
-        } else {
-            return true;
-        }
+    	this.DAILY_RATE = fee;
+    	return this.DAILY_RATE == fee;
+    }
+    
+    @Override
+    public double getFeeRate() {
+    	return DAILY_RATE;
     }
 }

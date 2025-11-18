@@ -1,4 +1,4 @@
-package src.parkinglot;
+package parkinglot;
 import java.util.Map;
 
 public class Invoker {

@@ -1,11 +1,11 @@
-package src.parkinglot;
+package parkinglot;
 public class ParkingSpot {
     private final String spotID;
     private boolean isOccupied;
     private final ParkingSpotType type;
     private Vehicle parkedVehicle;
 
-    ParkingSpot(String spotID, ParkingSpotType type) {
+    public ParkingSpot(String spotID, ParkingSpotType type) {
         this.spotID = spotID;
         this.isOccupied = false;
         this.type = type;

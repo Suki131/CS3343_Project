@@ -1,13 +1,14 @@
-package src.parkinglot;
+package parkinglot;
 import java.util.Scanner;
 
 public class AlipayHk_PaymentProcessor implements PaymentProcessor {
     @Override
-    public void processPayment(String paymentMethod, double amount) {
+    public boolean processPayment(String paymentMethod, double amount, Ticket ticket, Scanner scanner) {
         System.out.println("Please enter your Alipay HK account phone number:");
-        Scanner scanner = new Scanner(System.in);
         String phoneNumber = scanner.nextLine();
-        System.out.println("Processing Alipay HK payment of amount: " + amount);
-        System.out.println("Payment of " + amount + " via Alipay HK successful for account: " + phoneNumber);
+		System.out.println("Processing Alipay HK payment of amount: " + amount);
+		System.out.println("Payment of " + amount + " via Alipay HK successful for account: " + phoneNumber);
+        ticket.changeStatus(TicketStatus.PAID);
+        return ticket.getStatus() == TicketStatus.PAID;
     }
 }

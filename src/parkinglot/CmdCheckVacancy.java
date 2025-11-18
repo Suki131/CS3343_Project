@@ -1,4 +1,4 @@
-package src.parkinglot;
+package parkinglot;
 public class CmdCheckVacancy implements StaffCommand {
     
     @Override

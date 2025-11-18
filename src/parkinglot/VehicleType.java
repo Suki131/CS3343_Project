@@ -1,4 +1,4 @@
-package src.parkinglot;
+package parkinglot;
 public enum VehicleType {
     PRIVATE,
     TRUCK_5_5T,

@@ -1,4 +1,4 @@
-package src.parkinglot;
+package parkinglot;
 import java.util.Scanner;
 
 public class CmdStaffLogin implements StaffCommand {

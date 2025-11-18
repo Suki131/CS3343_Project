@@ -1,4 +1,4 @@
-package src.parkinglot;
+package parkinglot;
 public enum TicketStatus {
     ENTERED,
     PAID,

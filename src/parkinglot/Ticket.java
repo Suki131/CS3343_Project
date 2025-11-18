@@ -1,4 +1,4 @@
-package src.parkinglot;
+package parkinglot;
 import java.time.LocalDateTime;
 
 public class Ticket {
@@ -13,7 +13,7 @@ public class Ticket {
     private DiscountStrategy discountStrategy;
     private BillingStrategy billingStrategy;
 
-    Ticket(Vehicle vehicle, ParkingSpot spot) {
+    public Ticket(Vehicle vehicle, ParkingSpot spot) {
         this.ticketID = RandomIDGenerator.generateID(6);
         this.vehicle = vehicle;
         this.spot = spot;
@@ -35,6 +35,11 @@ public class Ticket {
         return exitTime;
     }
 
+    public boolean setEntryTime(LocalDateTime entryTime) {
+        this.entryTime = entryTime;
+        return this.entryTime == entryTime;
+    }
+    
     public boolean setExitTime(LocalDateTime exitTime) {
         this.exitTime = exitTime;
         return this.exitTime == exitTime;

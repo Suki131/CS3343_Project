@@ -1,4 +1,4 @@
-package src.parkinglot;
+package parkinglot;
 public class Vehicle {
     private String licensePlate;
     private VehicleType vehicleType;

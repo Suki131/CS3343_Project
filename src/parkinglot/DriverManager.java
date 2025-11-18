@@ -1,4 +1,4 @@
-package src.parkinglot;
+package parkinglot;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 

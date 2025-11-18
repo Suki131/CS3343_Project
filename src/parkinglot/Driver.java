@@ -1,4 +1,4 @@
-package src.parkinglot;
+package parkinglot;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,7 +13,7 @@ public class Driver {
     private Ticket currentTicket;
     private final DriverInvoker driverInvoker = DriverInvoker.getInstance();
 
-    Driver(String name, String contactInfo, MembershipType membershipType, LocalDateTime membershipExpiryDate) {
+    public Driver(String name, String contactInfo, MembershipType membershipType, LocalDateTime membershipExpiryDate) {
         this.driverID = RandomIDGenerator.generateID(4);
         this.name = name;
         this.contactInfo = contactInfo;
@@ -23,7 +23,7 @@ public class Driver {
         this.vehicleList = new ArrayList<>();
     }
 
-    Driver(String id, String name, String contactInfo, MembershipType membershipType, LocalDateTime membershipExpiryDate, List<Vehicle> vehicleList) {
+    public Driver(String id, String name, String contactInfo, MembershipType membershipType, LocalDateTime membershipExpiryDate, List<Vehicle> vehicleList) {
         this.driverID = id;
         this.name = name;
         this.contactInfo = contactInfo;
