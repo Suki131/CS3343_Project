@@ -67,8 +67,17 @@ public class ParkingManager {
                     return spot;
                 }
             }
+        } else {
+            // ensure there's a list for this type
+            spots = new ArrayList<>();
+            spotsByType.put(type, spots);
         }
-        return null;
+        // No free spot found: create a new spot and return it so callers don't get null
+        String spotID = type.name() + "_" + (spots.size() + 1);
+        ParkingSpot newSpot = new ParkingSpot(spotID, type);
+        spots.add(newSpot);
+        System.out.println("Allocated additional spot: " + spotID);
+        return newSpot;
     }
 
     public static ParkingSpot findParkingSpotByVehicle(Vehicle vehicle) {
