@@ -43,6 +43,8 @@ public class CmdApplyDiscount implements StaffCommand {
         }
 
         Ticket ticket = TicketManager.getInstance().getEnteredTicket(vehicle);
+        // Reset the loop flag so the ticket-null handling loop actually runs as intended
+        continous1 = true;
         while (continous1) {
             if (ticket == null) {
                 continous2 = true;
@@ -53,7 +55,16 @@ public class CmdApplyDiscount implements StaffCommand {
                         String choice = scanner.nextLine();
                         switch (choice) {
                                 case "1":
+                                    // read a new plate, update vehicle/driver/ticket and exit loops so final null check can run
+                                    System.out.println("=========================================================================================================");
+                                    System.out.println("Please enter vehicle license plate to apply discount:");
+                                    String rePlate = scanner.nextLine();
+                                    vehicle = ParkingManager.findVehicle(rePlate);
+                                    driver = vehicle != null ? vehicle.getOwnerDriver() : null;
+                                    ticket = (vehicle != null) ? TicketManager.getInstance().getEnteredTicket(vehicle) : null;
                                     continous2 = false;
+                                    // stop outer loop too so we reach the final guard below
+                                    continous1 = false;
                                     System.out.println("=========================================================================================================");
                                     break;
                                 case "2":
@@ -69,30 +80,30 @@ public class CmdApplyDiscount implements StaffCommand {
             }
         }
 
+        // If ticket is still null after the prompts, exit gracefully
+        if (ticket == null) {
+            System.out.println("No ticket available after prompts, exiting.");
+            return;
+        }
+
         BillingStrategy billingStrategy = HourlyBilling.getInstance();
         ticket.setBillingStrategy(billingStrategy);
-        if (null != driver.getMembershipType() && driver.getMembershipExpiryDate() != null && driver.getMembershipExpiryDate().isBefore(java.time.LocalDateTime.now())) {
-            switch (driver.getMembershipType()) {
-                case NONE:
-                    billingStrategy = HourlyBilling.getInstance();
-                    ticket.setBillingStrategy(billingStrategy);
-                    break;
-                case DAILY:
-                    billingStrategy = DailyBilling.getInstance();
-                    ticket.setBillingStrategy(billingStrategy);
-                    break;
-                case MONTHLY:
-                    billingStrategy = MonthlyBilling.getInstance();
-                    ticket.setBillingStrategy(billingStrategy);
-                    break;
-                case ANNUALLY:
-                    billingStrategy = AnnualBilling.getInstance();
-                    ticket.setBillingStrategy(billingStrategy);
-                    break;
-                default:
-                    billingStrategy = HourlyBilling.getInstance();
-                    ticket.setBillingStrategy(billingStrategy);
-                    break;
+        // read membership type once to make the switch expression explicit and testable
+        MembershipType mt = driver.getMembershipType();
+        if (mt != null && driver.getMembershipExpiryDate() != null && driver.getMembershipExpiryDate().isBefore(java.time.LocalDateTime.now())) {
+            if (mt == MembershipType.NONE) {
+                billingStrategy = HourlyBilling.getInstance();
+                ticket.setBillingStrategy(billingStrategy);
+            } else if (mt == MembershipType.DAILY) {
+                billingStrategy = DailyBilling.getInstance();
+                ticket.setBillingStrategy(billingStrategy);
+            } else if (mt == MembershipType.MONTHLY) {
+                billingStrategy = MonthlyBilling.getInstance();
+                ticket.setBillingStrategy(billingStrategy);
+            } else {
+                // remaining possibility: ANNUALLY
+                billingStrategy = AnnualBilling.getInstance();
+                ticket.setBillingStrategy(billingStrategy);
             }
         }
 
