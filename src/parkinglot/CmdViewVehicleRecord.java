@@ -1,4 +1,4 @@
-package src.parkinglot;
+package parkinglot;
 import java.util.Scanner;
 
 public class CmdViewVehicleRecord implements StaffCommand {
@@ -7,7 +7,7 @@ public class CmdViewVehicleRecord implements StaffCommand {
 
     @Override
     public void execute(String cmdName, Staff staff) {
-        Scanner scanner = new Scanner(System.in);
+    	Scanner scanner = SmartParkingSystem.getScanner();
         System.out.println("Enter vehicle license plate to view record:");
         String licensePlate = scanner.nextLine();
         Vehicle vehicle = driverManager.findVehicleByLicense(licensePlate);

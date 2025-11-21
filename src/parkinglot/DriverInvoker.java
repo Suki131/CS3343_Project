@@ -1,5 +1,6 @@
-package src.parkinglot;
+package parkinglot;
 import java.util.Map;
+import java.util.Scanner;
 
 public class DriverInvoker {
     private Map<String, DriverCommand> driverCommandList;

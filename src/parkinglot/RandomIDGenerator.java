@@ -1,4 +1,4 @@
-package src.parkinglot;
+package parkinglot;
 public class RandomIDGenerator {
     public static String generateID(int length) {
         String characters = "0123456789";

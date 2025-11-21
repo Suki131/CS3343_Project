@@ -1,14 +1,34 @@
-package src.parkinglot;
+package parkinglot;
 import java.util.Scanner;
 
 public class SmartParkingSystem {
     private static final SmartParkingSystem smartParkingSystem = new SmartParkingSystem();
+    private Scanner scanner;
+    
+    public static SmartParkingSystem getInstance() {
+    	return smartParkingSystem;
+    }
+    
+    public static Scanner getScanner() {
+    	if (getInstance().scanner == null) {
+    		getInstance().scanner = new Scanner(System.in);
+    	}
+    	return getInstance().scanner;
+    }
+    
+    public static void injectScannerForTest(Scanner testScanner) {
+        getInstance().scanner = testScanner;
+    }
 
+    public static void resetScannerForTest() {
+        getInstance().scanner = new Scanner(System.in);
+    }
+    
     public void displayStaffMenu() {
         CommandInvoker command = CommandInvoker.getInstance();
         DriverInvoker driverCommand = DriverInvoker.getInstance();
         StaffInvoker staffCommand = StaffInvoker.getInstance();
-        Scanner scanner = new Scanner(System.in);
+    	Scanner scanner = SmartParkingSystem.getScanner();
 
         System.out.println("Action: ");
         System.out.println("  1. Apply Discount");
@@ -52,7 +72,6 @@ public class SmartParkingSystem {
         CommandInvoker command = CommandInvoker.getInstance();
         DriverInvoker driverCommand = DriverInvoker.getInstance();
         StaffInvoker staffCommand = StaffInvoker.getInstance();
-        Scanner scanner = new Scanner(System.in);
         boolean continous1 = true;
 
         while (continous1) { 
@@ -115,6 +134,7 @@ public class SmartParkingSystem {
     }
     
     public void run(){
+    	Scanner scanner = SmartParkingSystem.getScanner();
         System.out.println("=========================================================================================================");
         printBig("WELCOME");
         System.out.println("=========================================================================================================");
@@ -122,7 +142,6 @@ public class SmartParkingSystem {
         while (true) {
 
             System.out.print("Are you\n  1. Staff\n  2. Driver\nPlease Enter your Role (1-2): ");
-            Scanner scanner = new Scanner(System.in);
             String userType = scanner.nextLine();
 
             if (userType.equalsIgnoreCase("1")) {

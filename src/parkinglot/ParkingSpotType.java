@@ -1,4 +1,4 @@
-package src.parkinglot;
+package parkinglot;
 public enum ParkingSpotType {
     PRIVATE_SPOT,
     TRUCK_5_5T_SPOT,

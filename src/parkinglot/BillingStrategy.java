@@ -1,7 +1,9 @@
-package src.parkinglot;
+package parkinglot;
 
 public interface BillingStrategy {
     double calculateBill(Ticket ticket);
 
     boolean setFeeRate(double fee);
+    
+    double getFeeRate();
 }

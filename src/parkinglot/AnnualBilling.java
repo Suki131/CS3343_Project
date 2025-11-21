@@ -1,4 +1,4 @@
-package src.parkinglot;
+package parkinglot;
 public class AnnualBilling implements BillingStrategy {
     private double ANNUAL_RATE = 0.0;
     private static final AnnualBilling INSTANCE = new AnnualBilling();
@@ -18,10 +18,15 @@ public class AnnualBilling implements BillingStrategy {
 
     @Override
     public boolean setFeeRate(double fee) {
-        if (ANNUAL_RATE != fee){
-            return false;
-        } else {
+    	this.ANNUAL_RATE = fee;
+        if (ANNUAL_RATE  == fee){
             return true;
         }
+        return false;
+    }
+    
+    @Override
+    public double getFeeRate() {
+    	return ANNUAL_RATE;
     }
 }

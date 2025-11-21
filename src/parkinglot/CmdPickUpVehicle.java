@@ -1,15 +1,15 @@
-package src.parkinglot;
+package parkinglot;
 import java.util.Scanner;
 
 public class CmdPickUpVehicle implements DriverCommand {
 
     @Override
     public void execute(String cmdName, Driver driver) {
+    	Scanner scanner = SmartParkingSystem.getScanner();
         DriverManager driverManager = DriverManager.getInstance();
         DriverInvoker driverCommand = DriverInvoker.getInstance();
         boolean continous1 = true;
         while (continous1) { 
-            Scanner scanner = new Scanner(System.in);
             System.out.println("Enter vehicle license plate to pick up:");
             String licensePlate = scanner.nextLine();
             System.out.println("Please enter Driver ID to proceed.");

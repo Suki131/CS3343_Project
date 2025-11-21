@@ -1,5 +1,6 @@
-package src.parkinglot;
+package parkinglot;
 import java.util.Map;
+import java.util.Scanner;
 
 public class PaymentInvoker {
     private PaymentProcessor paymentProcessor;
@@ -15,15 +16,12 @@ public class PaymentInvoker {
         );
     }
 
-    public void invokePayment(String paymentMethod, double amount) {
-        paymentProcessor.processPayment(paymentMethod, amount);
-    }
-
-    public void executeCommand(String cmdName, double amount) {
+    public boolean executeCommand(String cmdName, double amount, Ticket ticket) {
         PaymentProcessor paymentProcessor = commandList.get(cmdName);
         if (paymentProcessor != null) {
-            paymentProcessor.processPayment(cmdName, amount);
+            return paymentProcessor.processPayment(cmdName, amount, ticket);
         }
+        return false;
     }
 
     public static PaymentInvoker getInstance() {

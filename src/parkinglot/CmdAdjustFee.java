@@ -1,4 +1,4 @@
-package src.parkinglot;
+package parkinglot;
 import java.util.Scanner;
 
 public class CmdAdjustFee implements StaffCommand {
@@ -8,7 +8,7 @@ public class CmdAdjustFee implements StaffCommand {
 
     @Override
     public void execute(String cmdName, Staff staff) {
-        Scanner scanner = new Scanner(System.in);
+    	Scanner scanner = SmartParkingSystem.getScanner();
         System.out.println("The following parking bill can change:");
         System.out.println("1. Hourly Billing");
         System.out.println("2. Daily Billing");

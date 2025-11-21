@@ -1,11 +1,10 @@
-package src.parkinglot;
+package parkinglot;
 import java.util.Scanner;
 
 public class CmdStaffLogin implements StaffCommand {
-
     @Override
     public void execute(String cmdName, Staff staff) {
-        Scanner scanner = new Scanner(System.in);
+    	Scanner scanner = SmartParkingSystem.getScanner();
         System.out.println("Enter Staff ID to proceed.");
         String staffID = scanner.nextLine();
         System.out.println("Enter password to proceed.");

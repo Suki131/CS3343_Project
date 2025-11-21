@@ -1,5 +1,7 @@
-package src.parkinglot;
+package parkinglot;
+
+import java.util.Scanner;
 
 public interface PaymentProcessor {
-    void processPayment(String paymentMethod, double amount);
+    boolean processPayment(String paymentMethod, double amount, Ticket ticket);
 }

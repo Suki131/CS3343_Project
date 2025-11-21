@@ -1,5 +1,6 @@
-package src.parkinglot;
+package parkinglot;
 import java.util.Map;
+import java.util.Scanner;
 
 public class Invoker {
     private final Map<String, Command> commandList;

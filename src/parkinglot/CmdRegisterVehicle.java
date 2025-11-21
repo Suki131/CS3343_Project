@@ -1,11 +1,11 @@
-package src.parkinglot;
+package parkinglot;
 import java.util.Scanner;
 
 public class CmdRegisterVehicle implements DriverCommand {
-
+	
     @Override
     public void execute(String cmdName, Driver driver) {
-        Scanner scanner = new Scanner(System.in);
+    	Scanner scanner = SmartParkingSystem.getScanner();
         Vehicle vehicle = null;
         ParkingSpot spot = null;
         Ticket ticket = null;
