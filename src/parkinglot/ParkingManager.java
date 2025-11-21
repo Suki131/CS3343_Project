@@ -67,8 +67,15 @@ public class ParkingManager {
                     return spot;
                 }
             }
+        } else {
+            spots = new ArrayList<>();
+            spotsByType.put(type, spots);
         }
-        return null;
+        String spotID = type.name() + "_" + (spots.size() + 1);
+        ParkingSpot newSpot = new ParkingSpot(spotID, type);
+        spots.add(newSpot);
+        System.out.println("Allocated additional spot: " + spotID);
+        return newSpot;
     }
 
     public static ParkingSpot findParkingSpotByVehicle(Vehicle vehicle) {
