@@ -16,10 +16,10 @@ public class PaymentInvoker {
         );
     }
 
-    public boolean executeCommand(String cmdName, double amount, Ticket ticket, Scanner scanner) {
+    public boolean executeCommand(String cmdName, double amount, Ticket ticket) {
         PaymentProcessor paymentProcessor = commandList.get(cmdName);
         if (paymentProcessor != null) {
-            return paymentProcessor.processPayment(cmdName, amount, ticket, scanner);
+            return paymentProcessor.processPayment(cmdName, amount, ticket);
         }
         return false;
     }

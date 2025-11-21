@@ -10,17 +10,17 @@ import java.io.PrintStream;
 
 public abstract class inputOctopusAlipayCredit {
 
-    protected ByteArrayInputStream testInputStream;
-
-    protected final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
     private final PrintStream originalOut = System.out;
     private final InputStream originalIn = System.in;
+
+    protected final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
 
     @BeforeEach
     void setUpIO() {
         outContent.reset();
         System.setOut(new PrintStream(outContent));
-        testInputStream = null;
+
+        System.setIn(new ByteArrayInputStream(new byte[0]));
     }
 
     @AfterEach
@@ -35,5 +35,9 @@ public abstract class inputOctopusAlipayCredit {
 
     protected void resetOutput() {
         outContent.reset();
+    }
+
+    protected void setInput(String input) {
+        System.setIn(new ByteArrayInputStream(input.getBytes()));
     }
 }

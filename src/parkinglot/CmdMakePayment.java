@@ -9,6 +9,7 @@ public class CmdMakePayment implements DriverCommand {
 
     @Override
     public void execute(String cmdName, Driver driver) {
+        Scanner scanner = SmartParkingSystem.getScanner();
         System.out.println("Calculating parking fee...");
         billingStrategy = HourlyBilling.getInstance();
         if (null != driver.getMembershipType() && driver.getMembershipExpiryDate() != null && driver.getMembershipExpiryDate().isAfter(java.time.LocalDateTime.now())) {
@@ -31,24 +32,22 @@ public class CmdMakePayment implements DriverCommand {
         double parkingFee = billingStrategy.calculateBill(ticket);
         System.out.println("Your parking fee is: $" + parkingFee);
         System.out.println("Payment Method : \n 1. AliPay HK\n 2. Octopus Card\n 3. Credit Card \nSelect Payment method : ");
-        try (Scanner scanner = new Scanner(System.in)) {
-			String paymentMethod = scanner.nextLine();
-			switch (paymentMethod) {
-			    case "1":
-			        paymentInvoker.executeCommand("PAY_BY_ALIPAY", parkingFee, ticket, scanner);
-			        break;
-			    case "2":
-			        paymentInvoker.executeCommand("PAY_BY_OCTOPUS", parkingFee, ticket, scanner);
-			        break;
-			    case "3":
-			        paymentInvoker.executeCommand("PAY_BY_CREDIT_CARD", parkingFee, ticket, scanner);
-			        break;
-			    default:
-			        System.out.println("Invalid payment method selected.");
-			        System.out.println("=========================================================================================================");
-			        break;
+		String paymentMethod = scanner.nextLine();
+		switch (paymentMethod) {
+			   case "1":
+			       paymentInvoker.executeCommand("PAY_BY_ALIPAY", parkingFee, ticket);
+			       break;
+			   case "2":
+			       paymentInvoker.executeCommand("PAY_BY_OCTOPUS", parkingFee, ticket);
+			       break;
+			   case "3":
+			       paymentInvoker.executeCommand("PAY_BY_CREDIT_CARD", parkingFee, ticket);
+			       break;
+			   default:
+			       System.out.println("Invalid payment method selected.");
+			       System.out.println("=========================================================================================================");
+			       break;
 			}
-		}
 
 
     }

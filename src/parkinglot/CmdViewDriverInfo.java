@@ -8,7 +8,7 @@ public class CmdViewDriverInfo implements StaffCommand {
     
     @Override
     public void execute(String cmdName, Staff staff) {
-        Scanner scanner = new Scanner(System.in);
+    	Scanner scanner = SmartParkingSystem.getScanner();
         System.out.println("Enter driver ID to view information:");
         String driverId = scanner.nextLine();
         Driver driver = driverManager.retrieveDriverbyID(driverId);

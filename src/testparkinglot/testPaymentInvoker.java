@@ -30,6 +30,7 @@ public class testPaymentInvoker extends inputOctopusAlipayCredit {
                 LocalDateTime.of(2026, 11, 16, 23, 55))),
             new ParkingSpot("001", ParkingSpotType.PRIVATE_SPOT)
         );
+        SmartParkingSystem.injectScannerForTest(new Scanner(""));
     }
     
     @AfterEach
@@ -63,20 +64,17 @@ public class testPaymentInvoker extends inputOctopusAlipayCredit {
             String cmd, double amount, String simulatedInput,
             String prompt, String processing, String successMsg,
             boolean expectedResult) {
-    	 System.setIn(new ByteArrayInputStream(simulatedInput.getBytes()));
+		Scanner testScanner = new Scanner(simulatedInput);
+		SmartParkingSystem.injectScannerForTest(testScanner);
 
-         try (Scanner scanner = new Scanner(System.in)) {
-	        // Act
-	        boolean result = invoker.executeCommand(cmd, amount, ticket1, scanner);
+	        boolean result = invoker.executeCommand(cmd, amount, ticket1);
 	
-	        // Assert
 	        String output = getOutput();
 	
 	        assertTrue(output.contains(prompt));
 	        assertTrue(output.contains(processing));
 	        assertTrue(output.contains(successMsg));
 	        assertEquals(expectedResult, result);			
-         }
     }
 
     @Test

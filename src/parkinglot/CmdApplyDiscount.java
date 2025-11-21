@@ -1,15 +1,14 @@
 package parkinglot;
 import java.util.Scanner;
 public class CmdApplyDiscount implements StaffCommand {
-
     @Override
     public void execute(String cmdName, Staff staff) {
+    	Scanner scanner = SmartParkingSystem.getScanner();
         DiscountStrategy discountStrategy = null;
         boolean continous1 = true;
         Vehicle vehicle = null;
         Driver driver = null;
         boolean continous2 = true;
-        Scanner scanner = new Scanner(System.in);
         while (continous1){
             System.out.println("Please enter vehicle license plate to apply discount:");
             String licensePlate = scanner.nextLine();

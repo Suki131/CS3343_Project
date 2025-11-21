@@ -3,11 +3,32 @@ import java.util.Scanner;
 
 public class SmartParkingSystem {
     private static final SmartParkingSystem smartParkingSystem = new SmartParkingSystem();
+    private Scanner scanner;
+    
+    public static SmartParkingSystem getInstance() {
+    	return smartParkingSystem;
+    }
+    
+    public static Scanner getScanner() {
+    	if (getInstance().scanner == null) {
+    		getInstance().scanner = new Scanner(System.in);
+    	}
+    	return getInstance().scanner;
+    }
+    
+    public static void injectScannerForTest(Scanner testScanner) {
+        getInstance().scanner = testScanner;
+    }
 
-    public void displayStaffMenu(Scanner scanner) {
+    public static void resetScannerForTest() {
+        getInstance().scanner = new Scanner(System.in);
+    }
+    
+    public void displayStaffMenu() {
         CommandInvoker command = CommandInvoker.getInstance();
         DriverInvoker driverCommand = DriverInvoker.getInstance();
         StaffInvoker staffCommand = StaffInvoker.getInstance();
+    	Scanner scanner = SmartParkingSystem.getScanner();
 
         System.out.println("Action: ");
         System.out.println("  1. Apply Discount");
@@ -47,7 +68,7 @@ public class SmartParkingSystem {
         }
     }
 
-    public void displayDriverMenu(Scanner scanner) {
+    public void displayDriverMenu() {
         CommandInvoker command = CommandInvoker.getInstance();
         DriverInvoker driverCommand = DriverInvoker.getInstance();
         StaffInvoker staffCommand = StaffInvoker.getInstance();
@@ -112,46 +133,31 @@ public class SmartParkingSystem {
     }
     }
     
-    public void run() {
-    System.out.println("=========================================================================================================");
-    printBig("WELCOME");
-    System.out.println("=========================================================================================================");
-    System.out.println("Parking Lot Management System!");
+    public void run(){
+    	Scanner scanner = SmartParkingSystem.getScanner();
+        System.out.println("=========================================================================================================");
+        printBig("WELCOME");
+        System.out.println("=========================================================================================================");
+        System.out.println("Parking Lot Management System!");
+        while (true) {
 
-    // 只開一次 Scanner！永不 close！
-    Scanner scanner = new Scanner(System.in);
+            System.out.print("Are you\n  1. Staff\n  2. Driver\nPlease Enter your Role (1-2): ");
+            String userType = scanner.nextLine();
 
-    while (true) {
-        // 每一輪都印提示 ← 這才是用戶看到的！
-        System.out.print("\nAre you\n 1. Staff\n 2. Driver\nPlease Enter your Role (1-2): ");
+            if (userType.equalsIgnoreCase("1")) {
 
-        // 安全讀取：測試時不會爆 No line found
-        while (!scanner.hasNextLine()) {
-            System.out.print("\nAre you\n 1. Staff\n 2. Driver\nPlease Enter your Role (1-2): ");
-        }
+                System.out.println("=========================================================================================================");
+                smartParkingSystem.displayStaffMenu();
+            } else if (userType.equalsIgnoreCase("2")) {
 
-        String userType = scanner.nextLine().trim();
-
-        if (userType.equalsIgnoreCase("1")) {
-            System.out.println("=========================================================================================================");
-            displayStaffMenu(scanner);  // 建議傳入 scanner
-        } 
-        else if (userType.equalsIgnoreCase("2")) {
-            System.out.println("=========================================================================================================");
-            displayDriverMenu(scanner); // 建議傳入 scanner
-        } 
-        else if (userType.equalsIgnoreCase("7") || userType.equalsIgnoreCase("exit")) {
-            System.out.println("\n謝謝使用 Smart Parking System!再見!");
-            break;
-        }
-        else {
-            System.out.println("Invalid user type. Please enter 1 or 2 to continue");
-            System.out.println("=========================================================================================================");
+                System.out.println("=========================================================================================================");
+                smartParkingSystem.displayDriverMenu();
+            } else {
+                System.out.println("Invalid user type. Please enter 1 or 2 to continous");
+                System.out.println("=========================================================================================================");
+            }
         }
     }
-
-    scanner.close(); // 整個程式結束才 close
-}
 
     public static void main(String[] args) {
         smartParkingSystem.run();

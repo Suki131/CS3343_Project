@@ -8,6 +8,7 @@ import parkinglot.*;
 
 import java.io.ByteArrayInputStream;
 import java.time.LocalDateTime;
+import java.util.Scanner;
 import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -21,6 +22,7 @@ public class testCmdMakePayment extends inputOctopusAlipayCredit {
     @BeforeEach
     void setUp() {
         super.setUpIO();
+        SmartParkingSystem.injectScannerForTest(new Scanner(""));
 
         cmd = new CmdMakePayment();
 
@@ -43,10 +45,10 @@ public class testCmdMakePayment extends inputOctopusAlipayCredit {
             String simulatedInput,
             double expectedFee,
             String[] expectedOutputs) {
+        Scanner testScanner = new Scanner(simulatedInput);
+        SmartParkingSystem.injectScannerForTest(testScanner);
     	driver.setMembershipType(MembershipType.NONE);
     	driver.setMembershipExpiryDate(null);
-
-        System.setIn(new ByteArrayInputStream(simulatedInput.getBytes()));
 
         cmd.execute("MAKE_PAYMENT", driver);
 
@@ -80,17 +82,17 @@ public class testCmdMakePayment extends inputOctopusAlipayCredit {
             )
         );
     }
-    
+   
     @ParameterizedTest
     @MethodSource("octopusFlow")
     void shouldCompletePaymentFlow_viaOctopus(
             String simulatedInput,
             double expectedFee,
             String[] expectedOutputs) {
+        Scanner testScanner = new Scanner(simulatedInput);
+        SmartParkingSystem.injectScannerForTest(testScanner);
     	driver.setMembershipType(MembershipType.DAILY);
     	driver.setMembershipExpiryDate(LocalDateTime.of(2026, 11, 16, 23, 55));
-    	
-        System.setIn(new ByteArrayInputStream(simulatedInput.getBytes()));
 
         cmd.execute("MAKE_PAYMENT", driver);
 
@@ -132,10 +134,10 @@ public class testCmdMakePayment extends inputOctopusAlipayCredit {
             String simulatedInput,
             double expectedFee,
             String[] expectedOutputs) {
+        Scanner testScanner = new Scanner(simulatedInput);
+        SmartParkingSystem.injectScannerForTest(testScanner);
     	driver.setMembershipType(MembershipType.MONTHLY);
     	driver.setMembershipExpiryDate(LocalDateTime.of(2026, 11, 16, 23, 55));
-    	
-        System.setIn(new ByteArrayInputStream(simulatedInput.getBytes()));
 
         cmd.execute("MAKE_PAYMENT", driver);
 
@@ -178,10 +180,10 @@ public class testCmdMakePayment extends inputOctopusAlipayCredit {
             String simulatedInput,
             double expectedFee,
             String[] expectedOutputs) {
+        Scanner testScanner = new Scanner(simulatedInput);
+        SmartParkingSystem.injectScannerForTest(testScanner);
     	driver.setMembershipType(MembershipType.ANNUALLY);
     	driver.setMembershipExpiryDate(LocalDateTime.of(2026, 11, 16, 23, 55));
-
-        System.setIn(new ByteArrayInputStream(simulatedInput.getBytes()));
 
         cmd.execute("MAKE_PAYMENT", driver);
 
@@ -218,10 +220,10 @@ public class testCmdMakePayment extends inputOctopusAlipayCredit {
             String simulatedInput,
             double expectedFee,
             String[] expectedOutputs) {
+        Scanner testScanner = new Scanner(simulatedInput);
+        SmartParkingSystem.injectScannerForTest(testScanner);
     	driver.setMembershipType(null);
     	driver.setMembershipExpiryDate(LocalDateTime.of(2026, 11, 16, 23, 55));
-
-        System.setIn(new ByteArrayInputStream(simulatedInput.getBytes()));
 
         cmd.execute("MAKE_PAYMENT", driver);
 
@@ -257,10 +259,10 @@ public class testCmdMakePayment extends inputOctopusAlipayCredit {
             String simulatedInput,
             double expectedFee,
             String[] expectedOutputs) {
+        Scanner testScanner = new Scanner(simulatedInput);
+        SmartParkingSystem.injectScannerForTest(testScanner);
     	driver.setMembershipType(MembershipType.ANNUALLY);
     	driver.setMembershipExpiryDate(null);
-
-        System.setIn(new ByteArrayInputStream(simulatedInput.getBytes()));
 
         cmd.execute("MAKE_PAYMENT", driver);
 
@@ -296,10 +298,10 @@ public class testCmdMakePayment extends inputOctopusAlipayCredit {
             String simulatedInput,
             double expectedFee,
             String[] expectedOutputs) {
+        Scanner testScanner = new Scanner(simulatedInput);
+        SmartParkingSystem.injectScannerForTest(testScanner);
     	driver.setMembershipType(MembershipType.ANNUALLY);
     	driver.setMembershipExpiryDate(LocalDateTime.of(2025, 11, 16, 23, 55));
-
-        System.setIn(new ByteArrayInputStream(simulatedInput.getBytes()));
 
         cmd.execute("MAKE_PAYMENT", driver);
 
@@ -336,10 +338,10 @@ public class testCmdMakePayment extends inputOctopusAlipayCredit {
             String simulatedInput,
             double expectedFee,
             String[] expectedOutputs) {
+        Scanner testScanner = new Scanner(simulatedInput);
+        SmartParkingSystem.injectScannerForTest(testScanner);
     	driver.setMembershipType(MembershipType.NONE);
     	driver.setMembershipExpiryDate(LocalDateTime.of(2026, 11, 16, 23, 55));
-    	
-        System.setIn(new ByteArrayInputStream(simulatedInput.getBytes()));
 
         cmd.execute("MAKE_PAYMENT", driver);
 

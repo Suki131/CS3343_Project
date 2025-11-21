@@ -2,7 +2,6 @@ package parkinglot;
 import java.util.Scanner;
 
 public class CmdRegisterDriver implements Command{
-    Scanner scanner = new Scanner(System.in);
     Driver driver = null;
     CommandInvoker command = CommandInvoker.getInstance();
     DriverInvoker driverCommand = DriverInvoker.getInstance();
@@ -11,6 +10,7 @@ public class CmdRegisterDriver implements Command{
 
     @Override
     public void execute(String cmdName) {
+        Scanner scanner = SmartParkingSystem.getScanner();
         boolean continous1 = true;
         while (continous1) {
             System.out.println("Do you have an account?\n 1. Yes\n 2. No\n 3. Back to Home Page");

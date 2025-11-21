@@ -1,13 +1,11 @@
 package testparkinglot;
 
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import parkinglot.*;
 
-import java.io.ByteArrayInputStream;
 import java.time.LocalDateTime;
 import java.util.Scanner;
 import java.util.stream.Stream;
@@ -27,12 +25,7 @@ public class testOctopus_PaymentProcessor extends inputOctopusAlipayCredit {
                     LocalDateTime.of(2026, 11, 16, 23, 55))),
             new ParkingSpot("001", ParkingSpotType.PRIVATE_SPOT)
         );
-    }
-
-    @AfterEach
-    void tearDownIO() {
-        super.tearDownIO();
-        super.resetOutput();
+        SmartParkingSystem.injectScannerForTest(new Scanner(""));
     }
 
     public static Stream<Arguments> octopusSuccessCases() {
@@ -58,11 +51,11 @@ public class testOctopus_PaymentProcessor extends inputOctopusAlipayCredit {
             String prompt, String processing, String successMsg,
             boolean expectedResult) {
 
-        System.setIn(new ByteArrayInputStream(simulatedInput.getBytes()));
+    		Scanner testScanner = new Scanner(simulatedInput);
+    		SmartParkingSystem.injectScannerForTest(testScanner);
 
-        try (Scanner scanner = new Scanner(System.in)) {
             Octopus_PaymentProcessor processor = new Octopus_PaymentProcessor();
-            boolean result = processor.processPayment(cmd, amount, ticket1, scanner);
+            boolean result = processor.processPayment(cmd, amount, ticket1);
 
             String output = getOutput();
 
@@ -71,6 +64,6 @@ public class testOctopus_PaymentProcessor extends inputOctopusAlipayCredit {
             assertTrue(output.contains(successMsg), "Missing success message");
             assertEquals(expectedResult, result, "Payment result mismatch");
             assertEquals(TicketStatus.PAID, ticket1.getStatus(), "Ticket not marked as PAID");
-        }
+       
     }
 }

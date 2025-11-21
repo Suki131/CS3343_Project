@@ -6,7 +6,8 @@ import java.util.Scanner;
 public class CreditCard_PaymentProcessor implements PaymentProcessor {
 
     @Override
-    public boolean processPayment(String paymentMethod, double amount, Ticket ticket, Scanner scanner) {
+    public boolean processPayment(String paymentMethod, double amount, Ticket ticket) {
+    	Scanner scanner = SmartParkingSystem.getScanner();
         System.out.println("Please enter your Credit Card number:");
         String cardNumber = scanner.nextLine();
 

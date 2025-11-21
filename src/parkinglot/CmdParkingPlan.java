@@ -8,10 +8,10 @@ import java.util.Scanner;
 public class CmdParkingPlan implements StaffCommand {
     DriverManager driverManager = DriverManager.getInstance();
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+    Scanner scanner = SmartParkingSystem.getScanner();
 
     @Override
     public void execute(String cmdName, Staff staff) {
-        Scanner scanner = new Scanner(System.in);
         System.out.println("The following parking plans are available:");
         System.out.println("1. Daily Parking Plan");
         System.out.println("2. Monthly Parking Plan");

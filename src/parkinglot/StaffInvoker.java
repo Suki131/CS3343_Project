@@ -1,5 +1,6 @@
 package parkinglot;
 import java.util.Map;
+import java.util.Scanner;
 
 public class StaffInvoker {
     private final Map<String, StaffCommand> staffCommandList;

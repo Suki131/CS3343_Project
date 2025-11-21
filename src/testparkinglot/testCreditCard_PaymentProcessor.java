@@ -27,6 +27,7 @@ public class testCreditCard_PaymentProcessor extends inputOctopusAlipayCredit {
                     LocalDateTime.of(2026, 11, 16, 23, 55))),
             new ParkingSpot("001", ParkingSpotType.PRIVATE_SPOT)
         );
+        SmartParkingSystem.injectScannerForTest(new Scanner(""));
     }
 
     @AfterEach
@@ -62,11 +63,11 @@ public class testCreditCard_PaymentProcessor extends inputOctopusAlipayCredit {
             String prompt1, String prompt2, String prompt3, String processing, String successMsg,
             boolean expectedResult) {
 
-        System.setIn(new ByteArrayInputStream(simulatedInput.getBytes()));
+		Scanner testScanner = new Scanner(simulatedInput);
+		SmartParkingSystem.injectScannerForTest(testScanner);
 
-        try (Scanner scanner = new Scanner(System.in)) {
             CreditCard_PaymentProcessor processor = new CreditCard_PaymentProcessor();
-            boolean result = processor.processPayment(cmd, amount, ticket1, scanner);
+            boolean result = processor.processPayment(cmd, amount, ticket1);
 
             String output = getOutput();
 
@@ -77,6 +78,5 @@ public class testCreditCard_PaymentProcessor extends inputOctopusAlipayCredit {
             assertTrue(output.contains(successMsg), "Missing success message");
             assertEquals(expectedResult, result, "Payment result mismatch");
             assertEquals(TicketStatus.PAID, ticket1.getStatus(), "Ticket not marked as PAID");
-        }
     }
 }
