@@ -4,9 +4,11 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import parkinglot.Driver;
+import parkinglot.DriverManager;
 import parkinglot.MembershipType;
 import parkinglot.ParkingSpot;
 import parkinglot.ParkingSpotType;
+import parkinglot.SmartParkingSystem;
 import parkinglot.Ticket;
 import parkinglot.Vehicle;
 import parkinglot.VehicleType;
@@ -14,6 +16,7 @@ import parkinglot.VehicleType;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -25,17 +28,25 @@ public class testDriver {
 
     @BeforeEach
     void setUp() {
-        driver = new Driver("John Doe", "john@example.com", 
+        SmartParkingSystem.injectScannerForTest(new Scanner(""));
+        driver = new Driver("John Doe", "12345678", 
                 MembershipType.NONE, LocalDateTime.now().plusDays(30));
-        vehicle1 = new Vehicle("ABC123", VehicleType.PRIVATE, driver);
-        vehicle2 = new Vehicle("EFG123", VehicleType.VAN, driver);
+        vehicle1 = new Vehicle("AB123", VehicleType.PRIVATE, driver);
+        vehicle2 = new Vehicle("XY789", VehicleType.VAN, driver);
+    }
+    
+    
+    @Test 
+    void testSetName(){
+    	driver.setName("Jacky");
+    	assertEquals(driver.getName(), "Jacky");
     }
 
     @Test
     void testAddAndRetrieveVehicle() {
-        Vehicle retrieved = driver.retrieveVehicle("ABC123");
+        Vehicle retrieved = driver.retrieveVehicle("AB123");
         assertNotNull(retrieved);
-        assertEquals("ABC123", retrieved.getLicensePlate());
+        assertEquals("AB123", retrieved.getLicensePlate());
 
         assertEquals(2, driver.getVehicleList().size());
     }
@@ -43,7 +54,7 @@ public class testDriver {
     @Test
     void testRetrieveVehicleNotFound() {
         driver.addVehicle(vehicle1);
-        Vehicle retrieved = driver.retrieveVehicle("NOTFOUND");
+        Vehicle retrieved = driver.retrieveVehicle("NULL");
         assertNull(retrieved);
     }
 
@@ -56,8 +67,8 @@ public class testDriver {
 
     @Test
     void testSetAndGetContactInfo() {
-        driver.setContactInfo("newemail@example.com");
-        assertEquals("newemail@example.com", driver.getContactInfo());
+        driver.setContactInfo("87654321");
+        assertEquals("87654321", driver.getContactInfo());
     }
 
     @Test
@@ -86,11 +97,10 @@ public class testDriver {
         List<Vehicle> vehicleList = new ArrayList<>();
         vehicleList.add(vehicle1);
         vehicleList.add(vehicle2);
-
-        Driver anotherDriver = new Driver("D001", "Alice", "alice@mail.com",
-                MembershipType.DAILY, LocalDateTime.now().plusDays(15), vehicleList);
+        
+        Driver anotherDriver = new Driver("1111", "Chris Wong", "87654321", MembershipType.DAILY, LocalDateTime.now().plusDays(10), vehicleList);
 
         assertEquals(2, anotherDriver.getVehicleList().size());
-        assertEquals("Alice", anotherDriver.getName());
+        assertEquals("Chris Wong", anotherDriver.getName());
     }
 }

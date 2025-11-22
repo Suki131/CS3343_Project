@@ -20,11 +20,7 @@ public class DriverInvoker {
 
     public void executeCommand(String cmdName, Driver driver) {
         DriverCommand command = driverCommandList.get(cmdName);
-        if (command != null) {
-            command.execute(cmdName, driver);
-        } else {
-            System.out.println("Invalid command: " + cmdName);
-        }
+        command.execute(cmdName, driver);
     }
 
 }

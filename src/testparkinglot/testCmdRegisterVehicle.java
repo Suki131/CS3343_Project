@@ -11,7 +11,7 @@ import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class testRegisterDriver extends inputOctopusAlipayCredit {
+public class testCmdRegisterVehicle extends inputOctopusAlipayCredit {
 
     private CmdRegisterDriver cmd;
 
@@ -74,6 +74,73 @@ public class testRegisterDriver extends inputOctopusAlipayCredit {
                 "Missing expected output: " + expected);
         }
     }
+    
+    @ParameterizedTest
+    @MethodSource("registerDriver2")
+    void registerNewDriver2(String simulatedInput, String[] expectedOutputs) {
+        
+        Scanner testScanner = new Scanner(simulatedInput);
+        SmartParkingSystem.injectScannerForTest(testScanner);
+
+        cmd.execute("REGISTER_DRIVER");
+
+        String output = getOutput();
+
+        for (String expected : expectedOutputs) {
+            assertTrue(output.contains(expected), 
+                "Missing expected output: " + expected);
+        }
+    }
+    @ParameterizedTest
+    @MethodSource("registerDriverVan3")
+    void registerNewDriver3(String simulatedInput, String[] expectedOutputs) {
+        
+        Scanner testScanner = new Scanner(simulatedInput);
+        SmartParkingSystem.injectScannerForTest(testScanner);
+
+        cmd.execute("REGISTER_DRIVER");
+
+        String output = getOutput();
+
+        for (String expected : expectedOutputs) {
+            assertTrue(output.contains(expected), 
+                "Missing expected output: " + expected);
+        }
+    }
+    @ParameterizedTest
+    @MethodSource("registerDriver4Truck")
+    void registerNewDriver4(String simulatedInput, String[] expectedOutputs) {
+        
+        Scanner testScanner = new Scanner(simulatedInput);
+        SmartParkingSystem.injectScannerForTest(testScanner);
+
+        cmd.execute("REGISTER_DRIVER");
+
+        String output = getOutput();
+
+        for (String expected : expectedOutputs) {
+            assertTrue(output.contains(expected), 
+                "Missing expected output: " + expected);
+        }
+    }
+    
+    @ParameterizedTest
+    @MethodSource("registerDriver5iNvalid")
+    void registerNewDriver5(String simulatedInput, String[] expectedOutputs) {
+        
+        Scanner testScanner = new Scanner(simulatedInput);
+        SmartParkingSystem.injectScannerForTest(testScanner);
+
+        cmd.execute("REGISTER_DRIVER");
+
+        String output = getOutput();
+
+        for (String expected : expectedOutputs) {
+            assertTrue(output.contains(expected), 
+                "Missing expected output: " + expected);
+        }
+    }
+
 
     static Stream<Arguments> registerDriver() {
         return Stream.of(
@@ -95,6 +162,75 @@ public class testRegisterDriver extends inputOctopusAlipayCredit {
         );
     }
     
+    static Stream<Arguments> registerDriver2() {
+        return Stream.of(
+            Arguments.of(
+                "2\n" +
+                "Dennis\n" +
+                "66666666\n" +
+                "AB246\n" +
+                "2\n",
+
+                new String[] {
+                    "Do you have an account?",
+                    "Enter your name : ",
+                    "Enter your contact info : ",
+                    "=========================================================================================================",
+                    "*********** Registration successful! Your Driver ID is : "
+                }
+            )
+        );
+    }
+    
+    static Stream<Arguments> registerDriverVan3() {
+        return Stream.of(
+            Arguments.of(
+                "2\n" +
+                "Dennis\n" +
+                "66666666\n" +
+                "AB246\n" +
+                "3\n",
+
+                new String[] {
+                    "Do you have an account?",
+                    "Enter your name : ",
+                    "Enter your contact info : ",
+                    "=========================================================================================================",
+                    "*********** Registration successful! Your Driver ID is : "
+                }
+            )
+        );
+    }
+    
+    static Stream<Arguments> registerDriver4Truck() {
+        return Stream.of(
+            Arguments.of(
+                "2\n" +
+                "Dennis\n" +
+                "66666666\n" +
+                "AB246\n" +
+                "4\n",
+
+                new String[] {
+                    "Do you have an account?",
+                    "Enter your name : ",
+                    "Enter your contact info : ",
+                    "=========================================================================================================",
+                    "*********** Registration successful! Your Driver ID is : "
+                }
+            )
+        );
+    }
+    
+    
+	static Stream<Arguments> registerDriver5iNvalid() {
+		return Stream.of(Arguments.of("2\n" + "Dennis\n" + "66666666\n" + "AB246\n" + "5\n" + "4\n",
+
+				new String[] { "Do you have an account?", "Enter your name : ", "Enter your contact info : ",
+						"Invalid vehicle type.",
+						"=========================================================================================================",
+						"*********** Registration successful! Your Driver ID is : " }));
+	}
     @ParameterizedTest
     @MethodSource("exitCurrentMenu")
     void exitCurrentMenu(String simulatedInput, String[] expectedOutputs) {

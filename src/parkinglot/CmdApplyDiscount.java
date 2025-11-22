@@ -1,7 +1,7 @@
 package parkinglot;
 import java.util.Scanner;
 public class CmdApplyDiscount implements StaffCommand {
-
+	
     @Override
     public void execute(String cmdName, Staff staff) {
         DiscountStrategy discountStrategy = null;
@@ -58,10 +58,10 @@ public class CmdApplyDiscount implements StaffCommand {
                                     vehicle = ParkingManager.findVehicle(rePlate);
                                     driver = vehicle != null ? vehicle.getOwnerDriver() : null;
                                     ticket = (vehicle != null) ? TicketManager.getInstance().getEnteredTicket(vehicle) : null;
-                                    continous2 = false;
-                                    continous1 = false;
+                                    continous2 = (ticket != null) ? false : true;
+                                    continous1 = (ticket != null) ? false : true;
                                     System.out.println("=========================================================================================================");
-                                    break;
+                                    continue;
                                 case "2":
                                     System.out.println("=========================================================================================================");
                                     return;   
@@ -69,21 +69,16 @@ public class CmdApplyDiscount implements StaffCommand {
                                     System.out.println("=========================================================================================================");
                                     System.out.println("****************** Please enter 1 or 2 ******************");
                             }
-                    }
+                }
             } else {
                 continous1 = false;
             }
         }
 
-        if (ticket == null) {
-            System.out.println("No ticket available after prompts, exiting.");
-            return;
-        }
-
         BillingStrategy billingStrategy = HourlyBilling.getInstance();
         ticket.setBillingStrategy(billingStrategy);
         MembershipType mt = driver.getMembershipType();
-        if (mt != null && driver.getMembershipExpiryDate() != null && driver.getMembershipExpiryDate().isBefore(java.time.LocalDateTime.now())) {
+        if (mt != null && driver.getMembershipExpiryDate() != null && driver.getMembershipExpiryDate().isAfter(java.time.LocalDateTime.now())) {
             if (mt == MembershipType.NONE) {
                 billingStrategy = HourlyBilling.getInstance();
                 ticket.setBillingStrategy(billingStrategy);
@@ -98,7 +93,7 @@ public class CmdApplyDiscount implements StaffCommand {
                 ticket.setBillingStrategy(billingStrategy);
             }
         }
-
+        
         double currentFee = ticket.calculateBaseAmount();
         continous1 = true;
         while (continous1) {
@@ -117,7 +112,6 @@ public class CmdApplyDiscount implements StaffCommand {
                 default:
                     System.out.println("Invalid choice.");
                     continous2 = true;
-                    System.out.println("No active ticket found for this vehicle.");
                     System.out.println("=========================================================================================================");
                     while (continous2) {
                         System.out.print("Action :\n1. Re-enter Information\n2. Exit\nChoose your action : ");

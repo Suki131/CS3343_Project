@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public class DriverManager {
     private static DriverManager instance = new DriverManager();
     private final ArrayList<Driver> driverList = new ArrayList<>();
-
+    
 private DriverManager() {
         Driver driver = new Driver("1234", "John Doe", "12345678", MembershipType.NONE, null, new ArrayList<>());
         Vehicle vehicle = new Vehicle("AB123", VehicleType.PRIVATE, driver);

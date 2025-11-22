@@ -13,19 +13,14 @@ public class CmdMakePayment implements DriverCommand {
         System.out.println("Calculating parking fee...");
         billingStrategy = HourlyBilling.getInstance();
         if (null != driver.getMembershipType() && driver.getMembershipExpiryDate() != null && driver.getMembershipExpiryDate().isAfter(java.time.LocalDateTime.now())) {
-            switch (driver.getMembershipType()) {
-                case NONE:
-                    billingStrategy = HourlyBilling.getInstance();
-                    break;
-                case DAILY:
-                    billingStrategy = DailyBilling.getInstance();
-                    break;
-                case MONTHLY:
-                    billingStrategy = MonthlyBilling.getInstance();
-                    break;
-                case ANNUALLY:
-                    billingStrategy = AnnualBilling.getInstance();
-                    break;
+            if (driver.getMembershipType() == MembershipType.NONE) {
+                billingStrategy = HourlyBilling.getInstance();
+            } else if (driver.getMembershipType() == MembershipType.DAILY) {
+                billingStrategy = DailyBilling.getInstance();
+            } else if (driver.getMembershipType() == MembershipType.MONTHLY) {
+                billingStrategy = MonthlyBilling.getInstance();
+            } else {
+                billingStrategy = AnnualBilling.getInstance();
             }
         }
         Ticket ticket = driver.getCurrentTicket();

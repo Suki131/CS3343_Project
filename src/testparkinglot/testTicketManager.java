@@ -43,6 +43,11 @@ public class testTicketManager {
         System.setOut(new PrintStream(outContent));  
     }
 	
+	@AfterEach
+	void teardown() {
+		
+	}
+	
 	@Test
     void testgetInstance() {
         assertEquals(ticketmanager, TicketManager.getInstance());

@@ -11,8 +11,7 @@ public class CmdRegisterDriver implements Command{
     @Override
     public void execute(String cmdName) {
         Scanner scanner = SmartParkingSystem.getScanner();
-        boolean continous1 = true;
-        while (continous1) {
+        while (true) {
             System.out.println("Do you have an account?\n 1. Yes\n 2. No\n 3. Back to Home Page");
             System.out.print("Enter (1-3) : ");
             String hasAccount = scanner.nextLine();
@@ -43,7 +42,6 @@ public class CmdRegisterDriver implements Command{
                             }
                     }
                 } else {
-                    continous1 = false;
                     System.out.println("=========================================================================================================");
                     System.out.println("*********** Login successful! Welcome back, " + driver.getName() + " ***********");
                     driverCommand.executeCommand("REGISTER_VEHICLE", driver);
@@ -60,7 +58,6 @@ public class CmdRegisterDriver implements Command{
                 DriverManager.getInstance().addDriver(driver);
                 System.out.println("=========================================================================================================");
                 System.out.println("*********** Registration successful! Your Driver ID is : " + driver.getDriverID() + " ***********");
-                continous1 = false;
                 driverCommand.executeCommand("REGISTER_VEHICLE", driver);
                 driver = null;
                 return;

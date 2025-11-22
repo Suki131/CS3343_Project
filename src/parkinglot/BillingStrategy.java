@@ -3,7 +3,7 @@ package parkinglot;
 public interface BillingStrategy {
     double calculateBill(Ticket ticket);
 
-    boolean setFeeRate(double fee);
+    void setFeeRate(double fee);
     
     double getFeeRate();
 }

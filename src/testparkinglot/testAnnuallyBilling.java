@@ -18,6 +18,12 @@ public class testAnnuallyBilling {
     	annually_billing.setFeeRate(0.0);
     }
 
+    @AfterEach
+    void tearDown() {
+    	annually_billing = AnnualBilling.getInstance();
+    	annually_billing.setFeeRate(0.0);
+    }
+    
     @Test
     @DisplayName("Singleton：get the same instance")
     void shouldReturnSameSingletonInstance() {

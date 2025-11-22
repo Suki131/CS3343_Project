@@ -20,6 +20,6 @@ public class CreditCard_PaymentProcessor implements PaymentProcessor {
         System.out.println("Processing Credit Card payment of amount: " + amount);
         System.out.println("Payment of " + amount + " via Credit Card successful for card number: " + cardNumber);
         ticket.changeStatus(TicketStatus.PAID);
-        return ticket.getStatus() == TicketStatus.PAID;
+        return true;
     }
 }

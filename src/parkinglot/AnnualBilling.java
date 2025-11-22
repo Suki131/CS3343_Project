@@ -17,12 +17,8 @@ public class AnnualBilling implements BillingStrategy {
     }
 
     @Override
-    public boolean setFeeRate(double fee) {
+    public void setFeeRate(double fee) {
     	this.ANNUAL_RATE = fee;
-        if (ANNUAL_RATE  == fee){
-            return true;
-        }
-        return false;
     }
     
     @Override

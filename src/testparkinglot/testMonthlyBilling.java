@@ -17,6 +17,12 @@ public class testMonthlyBilling {
     	monthly_billing = MonthlyBilling.getInstance();
     	monthly_billing.setFeeRate(0.0);
     }
+    
+    @AfterEach
+    void tearDown() {
+    	monthly_billing = MonthlyBilling.getInstance();
+    	monthly_billing.setFeeRate(0.0);
+    }
 
     @Test
     @DisplayName("Singleton：get the same instance")

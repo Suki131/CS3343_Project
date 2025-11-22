@@ -17,12 +17,8 @@ public class MonthlyBilling implements BillingStrategy {
     }
 
     @Override
-    public boolean setFeeRate(double fee){
+    public void setFeeRate(double fee){
     	this.MONTHLY_RATE = fee;
-        if (MONTHLY_RATE == fee){
-            return true;
-        }
-        return false;
     }
     
     @Override
