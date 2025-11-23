@@ -27,9 +27,8 @@ public class DailyBilling implements BillingStrategy {
     }
 
     @Override
-    public boolean setFeeRate(double fee){
+    public void setFeeRate(double fee){
     	this.DAILY_RATE = fee;
-    	return this.DAILY_RATE == fee;
     }
     
     @Override

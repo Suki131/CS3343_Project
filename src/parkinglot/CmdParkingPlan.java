@@ -36,7 +36,7 @@ public class CmdParkingPlan implements StaffCommand {
                 scanner.nextLine();
                 System.out.println("Purchasing Daily Parking Plan for " + days + " days.");
                 System.out.println("The expiration date for this plan is " + LocalDateTime.now().plusDays(days).format(formatter) + ".");
-                System.err.println("Confirm purchase? (yes/no)");
+                System.out.println("Confirm purchase? (yes/no)");
                 String confirmation = scanner.nextLine();
                 if (confirmation.equalsIgnoreCase("yes")) {
                     driver.setMembershipType(MembershipType.DAILY);
@@ -59,7 +59,7 @@ public class CmdParkingPlan implements StaffCommand {
                 scanner.nextLine();
                 System.out.println("Purchasing Monthly Parking Plan for " + months + " months.");
                 System.out.println("The expiration date for this plan is " + LocalDateTime.now().plusMonths(months).format(formatter) + ".");
-                System.err.println("Confirm purchase? (yes/no)");
+                System.out.println("Confirm purchase? (yes/no)");
                 confirmation = scanner.nextLine();
                 if (confirmation.equalsIgnoreCase("yes")) {
                     driver.setMembershipType(MembershipType.MONTHLY);
@@ -82,7 +82,7 @@ public class CmdParkingPlan implements StaffCommand {
                 scanner.nextLine();
                 System.out.println("Purchasing Annual Parking Plan for " + years + " years.");
                 System.out.println("The expiration date for this plan is " + LocalDateTime.now().plusYears(years).format(formatter) + ".");
-                System.err.println("Confirm purchase? (yes/no)");
+                System.out.println("Confirm purchase? (yes/no)");
                 confirmation = scanner.nextLine();
                 if (confirmation.equalsIgnoreCase("yes")) {
                     driver.setMembershipType(MembershipType.ANNUALLY);

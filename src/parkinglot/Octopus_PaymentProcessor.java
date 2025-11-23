@@ -12,7 +12,7 @@ public class Octopus_PaymentProcessor implements PaymentProcessor {
         System.out.println("Payment of " + amount + " via Octopus successful for card number: " + cardNumber);
 
         ticket.changeStatus(TicketStatus.PAID);
-        return ticket.getStatus() == TicketStatus.PAID;
+        return true;
     }
     
 }

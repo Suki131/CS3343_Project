@@ -23,11 +23,7 @@ public class StaffInvoker {
 
     public void executeCommand(String cmdName, Staff staff) {
         StaffCommand command = staffCommandList.get(cmdName);
-        if (command != null) {
-            command.execute(cmdName, staff);
-        } else {
-            System.out.println("Invalid command: " + cmdName);
-        }
+        command.execute(cmdName, staff);
     }
 
 }

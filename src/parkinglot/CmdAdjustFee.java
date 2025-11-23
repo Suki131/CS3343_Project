@@ -33,6 +33,7 @@ public class CmdAdjustFee implements StaffCommand {
                     billingStrategy = HourlyBilling.getInstance();
                     billingStrategy.setFeeRate(newFee);
                 } else {
+                	changed = false;
                     System.out.println("Confirmation failed.");
                 }
                 break;
@@ -48,6 +49,7 @@ public class CmdAdjustFee implements StaffCommand {
                     billingStrategy = DailyBilling.getInstance();
                     billingStrategy.setFeeRate(newFee);
                 } else {
+                	changed = false;
                     System.out.println("Confirmation failed.");
                 }
                 break;
@@ -63,6 +65,7 @@ public class CmdAdjustFee implements StaffCommand {
                     billingStrategy = MonthlyBilling.getInstance();
                     billingStrategy.setFeeRate(newFee);
                 } else {
+                	changed = false;
                     System.out.println("Confirmation failed.");
                 }
                 break;
@@ -78,6 +81,7 @@ public class CmdAdjustFee implements StaffCommand {
                     billingStrategy = AnnualBilling.getInstance();
                     billingStrategy.setFeeRate(newFee);
                 } else {
+                	changed = false;
                     System.out.println("Confirmation failed.");
                 }
                 break;
@@ -90,7 +94,7 @@ public class CmdAdjustFee implements StaffCommand {
         if (changed) {
             System.out.println("The billing of " + parkingPlan + " has been changed to " + String.valueOf(newFee));
             System.out.println("=========================================================================================================");
-        } else {
+        } else if (!changed){
             System.out.println("The billing of " + parkingPlan + " change failiure.");
             System.out.println("=========================================================================================================");
         }

@@ -72,9 +72,10 @@ public class Driver {
     public void getVehicleLicenseList() {
         if (vehicleList.isEmpty()) {
             System.out.println("No vehicles found.");
-        }
-        for (Vehicle vehicle : vehicleList) {
-            System.out.println(vehicle.getLicensePlate());
+        } else {
+	        for (Vehicle vehicle : vehicleList) {
+	            System.out.println(vehicle.getLicensePlate());
+	        }
         }
     }
     public void setContactInfo(String contactInfo) {

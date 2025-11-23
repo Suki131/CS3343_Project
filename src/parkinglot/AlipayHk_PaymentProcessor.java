@@ -10,6 +10,6 @@ public class AlipayHk_PaymentProcessor implements PaymentProcessor {
 		System.out.println("Processing Alipay HK payment of amount: " + amount);
 		System.out.println("Payment of " + amount + " via Alipay HK successful for account: " + phoneNumber);
         ticket.changeStatus(TicketStatus.PAID);
-        return ticket.getStatus() == TicketStatus.PAID;
+        return true;
     }
 }

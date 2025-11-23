@@ -31,12 +31,8 @@ public class HourlyBilling implements BillingStrategy {
     }
 
     @Override
-    public boolean setFeeRate(double fee){
+    public void setFeeRate(double fee){
         this.HOURLY_RATE = fee;
-        if (HOURLY_RATE == fee){
-            return true;
-        }
-        return false;
     }
     
     @Override

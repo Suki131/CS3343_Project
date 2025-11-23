@@ -14,7 +14,13 @@ class testDailyBilling {
     	daily_billing = DailyBilling.getInstance();
     	daily_billing.setFeeRate(0.0);
     }
-
+    
+    @AfterEach
+    void tearDown() {
+    	daily_billing = DailyBilling.getInstance();
+    	daily_billing.setFeeRate(0.0);
+    }
+    
     @Test
     @DisplayName("Singleton：get the same instance")
     void shouldReturnSameSingletonInstance() {

@@ -18,8 +18,6 @@ public class Invoker {
 
     public void executeCommand(String cmdName) {
         Command command = commandList.get(cmdName);
-        if (command != null) {
-            command.execute(cmdName);
-        }
+        command.execute(cmdName);
     }
 }
