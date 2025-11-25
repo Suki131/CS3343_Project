@@ -1,5 +1,6 @@
 package testparkinglot;
 
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -77,6 +78,15 @@ public class testCmdApplyDiscount extends inputOctopusAlipayCredit {
         
 
         cmd = new CmdApplyDiscount();
+    }
+
+    @AfterEach
+    void tearDown() {
+    	parkingspot1.removeVehicle();
+    	parkingspot2.removeVehicle();
+    	parkingspot3.removeVehicle();
+    	parkingspot4.removeVehicle();
+    	parkingspot5.removeVehicle();
     }
 
     @ParameterizedTest
