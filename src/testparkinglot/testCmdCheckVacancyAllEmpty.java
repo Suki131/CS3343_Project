@@ -1,5 +1,6 @@
 package testparkinglot;
 
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -24,6 +25,17 @@ public class testCmdCheckVacancyAllEmpty extends inputOctopusAlipayCredit {
         SmartParkingSystem.injectScannerForTest(new Scanner(""));
         
         // Clear all spots
+        var allSpots = ParkingManager.getAllSpots();
+        for (var spots : allSpots.values()) {
+            for (ParkingSpot spot : spots) {
+                spot.removeVehicle();
+            }
+        }
+    }
+
+    @AfterEach
+    void tearDown() {
+        // Clean up: Clear all spots after test to avoid interfering with other tests
         var allSpots = ParkingManager.getAllSpots();
         for (var spots : allSpots.values()) {
             for (ParkingSpot spot : spots) {

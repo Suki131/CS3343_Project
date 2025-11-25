@@ -44,6 +44,19 @@ public class testCmdApplyDiscount extends inputOctopusAlipayCredit {
     void setUp() {
         super.setUpIO();
         SmartParkingSystem.injectScannerForTest(new Scanner(""));
+        
+        // Clear all parking spots first to ensure clean state
+        var allSpots = ParkingManager.getAllSpots();
+        for (var spots : allSpots.values()) {
+            for (ParkingSpot spot : spots) {
+                spot.removeVehicle();
+            }
+        }
+        
+        // Clear TicketManager state
+        ticketmanager = TicketManager.getInstance();
+        // Note: TicketManager doesn't have a clear method, so we'll work with existing tickets
+        
         drivermanager = DriverManager.getInstance();
         
         driver1 = drivermanager.retrieveDriverbyID("1234");
@@ -69,7 +82,6 @@ public class testCmdApplyDiscount extends inputOctopusAlipayCredit {
         ticket3 = new Ticket(vehicle3, parkingspot3);
         ticket4 = new Ticket(vehicle4, parkingspot4);
         ticket5 = new Ticket(vehicle5, parkingspot5);
-        ticketmanager = TicketManager.getInstance();
         expiryDate = LocalDateTime.now().plusMonths(1);
         ticketmanager.addTicket(vehicle1, ticket1);
         ticketmanager.addTicket(vehicle3, ticket3);
@@ -332,7 +344,9 @@ public class testCmdApplyDiscount extends inputOctopusAlipayCredit {
             String[] expectedOutputs) {
         Scanner testScanner = new Scanner(simulatedInput);
         SmartParkingSystem.injectScannerForTest(testScanner);
-        driver1.setMembershipExpiryDate(expiryDate);
+        // CD123 belongs to driver2 (DAILY membership), so set driver2's expiry date
+        driver2.setMembershipExpiryDate(expiryDate);
+        driver2.setMembershipType(MembershipType.DAILY);
 
         cmd.execute("APPLY_DISCOUNT", staff);
 
