@@ -94,16 +94,11 @@ public class testCmdApplyDiscount extends inputOctopusAlipayCredit {
 
     @AfterEach
     void tearDown() {
-        // Clean up: Clear all parking spots after test to avoid interfering with other tests
-        var allSpots = ParkingManager.getAllSpots();
-        for (var spots : allSpots.values()) {
-            for (ParkingSpot spot : spots) {
-                spot.removeVehicle();
-            }
-        }
-        
-        // Note: TicketManager state is not cleared as it doesn't have a clear method
-        // This may cause issues if tests depend on clean TicketManager state
+    	parkingspot1.removeVehicle();
+    	parkingspot2.removeVehicle();
+    	parkingspot3.removeVehicle();
+    	parkingspot4.removeVehicle();
+    	parkingspot5.removeVehicle();
     }
 
     @ParameterizedTest
