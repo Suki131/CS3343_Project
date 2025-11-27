@@ -1,21 +1,46 @@
 package parkinglot;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.EnumMap;
 
 public class ParkingManager {
     private static final HashMap<ParkingSpotType, List<ParkingSpot>> spotsByType = new HashMap<>();
+    private static final EnumMap<VehicleType, ParkingSpotType> vehicleToSpotMap = new EnumMap<>(VehicleType.class);
+    private static final EnumMap<ParkingSpotType, String> spotTypeNames = new EnumMap<>(ParkingSpotType.class);
 
     static {
-        int spotsPerType = 10;
+        initializeSpots(10);
+        vehicleToSpotMap.put(VehicleType.PRIVATE, ParkingSpotType.PRIVATE_SPOT);
+        vehicleToSpotMap.put(VehicleType.TRUCK_3_5T, ParkingSpotType.TRUCK_3_5T_SPOT);
+        vehicleToSpotMap.put(VehicleType.TRUCK_5_5T, ParkingSpotType.TRUCK_5_5T_SPOT);
+        vehicleToSpotMap.put(VehicleType.VAN, ParkingSpotType.VAN_SPOT);
+
+        spotTypeNames.put(ParkingSpotType.PRIVATE_SPOT, "Normal Spot");
+        spotTypeNames.put(ParkingSpotType.TRUCK_3_5T_SPOT, "3.5T Truck Spot");
+        spotTypeNames.put(ParkingSpotType.TRUCK_5_5T_SPOT, "5.5T Truck Spot");
+        spotTypeNames.put(ParkingSpotType.VAN_SPOT, "Van Spot");
+    }
+
+    public static void initializeSpots(int spotsPerType) {
+        spotsByType.clear();
         for (ParkingSpotType type : ParkingSpotType.values()) {
-            spotsByType.put(type, new ArrayList<>());
+            List<ParkingSpot> spots = new ArrayList<>();
             for (int i = 1; i <= spotsPerType; i++) {
                 String spotID = type.name() + "_" + i;
-                ParkingSpot spot = new ParkingSpot(spotID, type);
-                spotsByType.get(type).add(spot);
+                spots.add(new ParkingSpot(spotID, type));
             }
+            spotsByType.put(type, spots);
         }
+    }
+
+    public static void mapVehicleType(VehicleType type, ParkingSpotType spotType) {
+        vehicleToSpotMap.put(type, spotType);
+    }
+
+    public static void removeVehicleMapping(VehicleType type) {
+        vehicleToSpotMap.remove(type);
     }
 
     public static HashMap<ParkingSpotType, List<ParkingSpot>> getAllSpots() {
@@ -26,7 +51,7 @@ public class ParkingManager {
         return spotsByType.get(type);
     }
 
-    public static void addParkingSpot(ParkingSpotType type) {
+    public static String addParkingSpot(ParkingSpotType type) {
         List<ParkingSpot> spots = spotsByType.get(type);
         if (spots == null) {
             spots = new ArrayList<>();
@@ -36,15 +61,18 @@ public class ParkingManager {
         ParkingSpot newSpot = new ParkingSpot(spotID, type);
         spots.add(newSpot);
         System.out.println("New Spot:" + spotID);
+        return spotID;
     }
 
-    public static void removeParkingSpot(ParkingSpotType type) {
+    public static String removeParkingSpot(ParkingSpotType type) {
         List<ParkingSpot> spots = spotsByType.get(type);
         if (spots != null && !spots.isEmpty()) {
             ParkingSpot removed = spots.remove(spots.size() - 1);
             System.out.println("Spot removed:" + removed.getSpotID());
+            return removed.getSpotID();
         } else {
             System.out.println("No " + type + " spots to remove");
+            return null;
         }
     }
 
@@ -79,9 +107,11 @@ public class ParkingManager {
     }
 
     public static ParkingSpot findParkingSpotByVehicle(Vehicle vehicle) {
+        if (vehicle == null) return null;
         for (List<ParkingSpot> spots : spotsByType.values()) {
-            for (ParkingSpot spot : spots) {    
-                if (spot.isOccupied() && spot.getParkedVehicle().equals(vehicle)) {
+            for (ParkingSpot spot : spots) {
+                if (spot.isOccupied() &&
+                    spot.getParkedVehicle().getLicensePlate().equals(vehicle.getLicensePlate())) {
                     return spot;
                 }
             }
@@ -90,44 +120,31 @@ public class ParkingManager {
     }
 
     public static ParkingSpot convertVehicleTypeToSpot(VehicleType vehicleType) {
-        switch (vehicleType) {
-            case PRIVATE:
-                return getAvailableSpot(ParkingSpotType.PRIVATE_SPOT);
-            case TRUCK_3_5T:
-                return getAvailableSpot(ParkingSpotType.TRUCK_3_5T_SPOT);
-            case TRUCK_5_5T:
-                return getAvailableSpot(ParkingSpotType.TRUCK_5_5T_SPOT);
-            case VAN:
-                return getAvailableSpot(ParkingSpotType.VAN_SPOT);
-            default:
-                return null;
-        }
+        if (vehicleType == null) return null;
+        ParkingSpotType spotType = vehicleToSpotMap.get(vehicleType);
+        if (spotType == null) return null;
+        return getAvailableSpot(spotType);
     }
 
-        public static void displayParkingStatus() {
+    public static void displayParkingStatus() {
         System.out.println("\n========================================= Parking Lot Overview =========================================\n");
-
         for (ParkingSpotType type : ParkingSpotType.values()) {
             List<ParkingSpot> spots = spotsByType.get(type);
             if (spots == null) continue;
-            
             long occupied = spots.stream().filter(ParkingSpot::isOccupied).count();
             System.out.println("【" + formatSpotTypeName(type) + "】");
             System.out.println("Total Spots: " + spots.size());
             System.out.println("Occupied: " + occupied);
             System.out.println("Available: " + (spots.size() - occupied));
-
             System.out.println("\nSpot Details:");
             System.out.println("┌────────────────────────┬────────────────────────────────────┐");
-            System.out.println("│        Spot ID         │             Status                 │");
+            System.out.println("│ Spot ID │ Status │");
             System.out.println("├────────────────────────┼────────────────────────────────────┤");
-            
             for (ParkingSpot spot : spots) {
-                String status = spot.isOccupied() ?
-                    "Occupied - " + spot.getParkedVehicle().getLicensePlate() :
-                    "Available";
-                System.out.printf("│ %-22s │ %-34s │%n",
-                    spot.getSpotID(), status);
+                String status = spot.isOccupied()
+                        ? "Occupied - " + spot.getParkedVehicle().getLicensePlate()
+                        : "Available";
+                System.out.printf("│ %-22s │ %-34s │%n", spot.getSpotID(), status);
             }
             System.out.println("└────────────────────────┴────────────────────────────────────┘\n");
             System.out.println("=========================================================================================================");
@@ -135,12 +152,6 @@ public class ParkingManager {
     }
 
     private static String formatSpotTypeName(ParkingSpotType type) {
-        switch (type) {
-            case PRIVATE_SPOT: return "Normal Spot";
-            case TRUCK_3_5T_SPOT: return "3.5T Truck Spot";
-            case TRUCK_5_5T_SPOT: return "5.5T Truck Spot";
-            case VAN_SPOT: return "Van Spot";
-            default: return type.name();
-        }
+        return spotTypeNames.getOrDefault(type, type.name());
     }
 }
