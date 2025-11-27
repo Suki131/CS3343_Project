@@ -1,4 +1,5 @@
 package parkinglot;
+
 import java.time.LocalDateTime;
 
 public class Ticket {
@@ -23,8 +24,9 @@ public class Ticket {
     }
 
     public boolean changeStatus(TicketStatus newStatus) {
+        TicketStatus oldStatus = this.status;
         this.status = newStatus;
-        return this.status == newStatus;
+        return oldStatus == newStatus;
     }
 
     public LocalDateTime getEntryTime() {
@@ -36,13 +38,15 @@ public class Ticket {
     }
 
     public boolean setEntryTime(LocalDateTime entryTime) {
+        LocalDateTime oldEntry = this.entryTime;
         this.entryTime = entryTime;
-        return this.entryTime == entryTime;
+        return oldEntry == entryTime; // both true/false possible
     }
-    
+
     public boolean setExitTime(LocalDateTime exitTime) {
+        LocalDateTime oldExit = this.exitTime;
         this.exitTime = exitTime;
-        return this.exitTime == exitTime;
+        return oldExit == exitTime; // both true/false possible
     }
 
     public void setBillingStrategy(BillingStrategy billingStrategy) {
@@ -65,8 +69,10 @@ public class Ticket {
         return vehicle.getOwnerDriver().getMembershipType();
     }
 
-    public double calDiscount(double discount){
-        return totalAmount = discountStrategy != null ? discountStrategy.applyDiscount(calculateBaseAmount(), discount) : 0;
+    public double calDiscount(double discount) {
+        return totalAmount = discountStrategy != null
+                ? discountStrategy.applyDiscount(calculateBaseAmount(), discount)
+                : 0;
     }
 
     public double calculateBaseAmount() {
@@ -83,7 +89,7 @@ public class Ticket {
     public double getTotalAmount() {
         return totalAmount;
     }
-    
+
     public void setParkingFee(double newFee) {
         this.totalAmount = newFee;
     }
@@ -94,5 +100,5 @@ public class Ticket {
 
     public Vehicle getVehicle() {
         return vehicle;
-    }   
+    }
 }
