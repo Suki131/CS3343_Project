@@ -152,6 +152,10 @@ public class SmartParkingSystem {
 
                 System.out.println("=========================================================================================================");
                 smartParkingSystem.displayDriverMenu();
+            } else if (userType.equalsIgnoreCase("3")) {
+
+                System.out.println("=========================================================================================================");
+                return ;
             } else {
                 System.out.println("Invalid user type. Please enter 1 or 2 to continous");
                 System.out.println("=========================================================================================================");

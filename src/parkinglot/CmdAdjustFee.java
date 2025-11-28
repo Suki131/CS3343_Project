@@ -94,9 +94,6 @@ public class CmdAdjustFee implements StaffCommand {
         if (changed) {
             System.out.println("The billing of " + parkingPlan + " has been changed to " + String.valueOf(newFee));
             System.out.println("=========================================================================================================");
-        } else if (!changed){
-            System.out.println("The billing of " + parkingPlan + " change failiure.");
-            System.out.println("=========================================================================================================");
         }
     }
     

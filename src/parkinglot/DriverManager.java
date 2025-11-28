@@ -60,7 +60,7 @@ private DriverManager() {
     }
 
     public Vehicle findVehicleByLicense(String licensePlate) {
-        if (licensePlate == null || licensePlate.trim().isEmpty()) {
+        if (licensePlate.trim().isEmpty()) {
             return null;
         }
 

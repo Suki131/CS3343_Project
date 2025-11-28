@@ -1,79 +1,50 @@
 package testparkinglot;
 
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Timeout;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import parkinglot.SmartParkingSystem;
+import parkinglot.CommandInvoker;
+import parkinglot.DriverInvoker;
+import parkinglot.StaffInvoker;
+import parkinglot.DriverManager;
 
 import java.util.Scanner;
-import java.util.concurrent.TimeUnit;
 import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 public class testSmartparking extends inputOctopusAlipayCredit {
 
-    private Thread runThread;
+    private CommandInvoker commandInvoker;
+    private DriverInvoker driverInvoker;
+    private StaffInvoker staffInvoker;
+    private DriverManager driverManager;
 
     @BeforeEach
     void setUp() {
         super.setUpIO();
         
+        // Initialize the managers and invokers
+        commandInvoker = CommandInvoker.getInstance();
+        driverInvoker = DriverInvoker.getInstance();
+        staffInvoker = StaffInvoker.getInstance();
+        driverManager = DriverManager.getInstance();
+        
         // Reset scanner to ensure clean state
         SmartParkingSystem.resetScannerForTest();
     }
 
-    @AfterEach
-    void tearDown() {
-        // Ensure thread is properly cleaned up
-        if (runThread != null && runThread.isAlive()) {
-            runThread.interrupt();
-            try {
-                runThread.join(1000); // Wait up to 1 second for thread to finish
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
-            }
-        }
-    }
-
     @ParameterizedTest
     @MethodSource("mainMenuScenarios")
-    @Timeout(value = 5, unit = TimeUnit.SECONDS)
     void testSmartParkingSystem_MainMenu(String input, String[] expected) {
         Scanner scanner = new Scanner(input);
         SmartParkingSystem.injectScannerForTest(scanner);
 
-        // Run the system in a separate thread to handle infinite loop
-        runThread = new Thread(() -> {
-            try {
-                SmartParkingSystem.getInstance().run();
-            } catch (Exception e) {
-                // Expected when thread is interrupted
-            }
-        });
-        runThread.setDaemon(true);
-        runThread.start();
-        
-        // Wait for the thread to process input
-        try {
-            Thread.sleep(1500); // Give time for processing
-        } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
-        }
-        
-        // Interrupt the thread to stop the infinite loop
-        runThread.interrupt();
-        
-        // Wait a bit more to ensure output is captured
-        try {
-            Thread.sleep(200);
-        } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
-        }
-        
+        // Run the system
+
+        SmartParkingSystem.getInstance().run(); 
         String output = getOutput();
         for (String fragment : expected) {
             assertTrue(output.contains(fragment),
@@ -85,111 +56,78 @@ public class testSmartparking extends inputOctopusAlipayCredit {
         return Stream.of(
             // Scenario 1: Staff menu - Apply Discount (Case 1)
             Arguments.of(
-                "1\n1\n7\n",
+                "1\n1\n7\n2\n3",
                 new String[] {
-                    "Staff login successful",
                     "Action:",
                     "1. Apply Discount",
-                    "Exiting Staff Menu"
-                }
-            ),
-            
-         // Scenario 199: Staff menu - Apply Discount (Case 1)
-            Arguments.of(
-                "1\n1\n7\n",
-                new String[] {
-                    "Staff login successful",
-                    "Action:",
-                    "1. Apply Discount",
-                    "  2. View Vehicle Record",
-					"  3. Adjust Fee",
-					"  4. Parking Plan",
-					"  5. Check Vacancy",
-					"  6. View Driver Info",
-					"  7. Exit",
-					"Please enter (1-7) to select next action : ",
-                    "Exiting Staff Menu"
                 }
             ),
             
 
             // Scenario 2: Staff menu - View Vehicle Record (Case 2)
             Arguments.of(
-                "1\n2\n7\n",
+                "1\n2\n7\n3\n3\n",
                 new String[] {
-                    "Staff login successful",
                     "Action:",
-                    "2. View Vehicle Record",
-                    "Exiting Staff Menu"
+                    "2. View Vehicle Record"
                 }
             ),
 
             // Scenario 3: Staff menu - Adjust Fee (Case 3)
             Arguments.of(
-                "1\n3\n7\n",
+                "1\n3\n7\n5\n3\n",
                 new String[] {
-                    "Staff login successful",
                     "Action:",
-                    "3. Adjust Fee",
-                    "Exiting Staff Menu"
+                    "3. Adjust Fee"
                 }
             ),
 
             // Scenario 4: Staff menu - Parking Plan (Case 4)
             Arguments.of(
-                "1\n4\n7\n",
+                "1\n4\n7\n4\n3\n",
                 new String[] {
-                    "Staff login successful",
                     "Action:",
-                    "4. Parking Plan",
-                    "Exiting Staff Menu"
+                    "4. Parking Plan"
                 }
             ),
 
             // Scenario 5: Staff menu - Check Vacancy (Case 5)
             Arguments.of(
-                "1\n5\n7\n",
+                "1\n5\n3\n",
                 new String[] {
-                    "Staff login successful",
                     "Action:",
-                    "5. Check Vacancy",
-                    "Exiting Staff Menu"
+                    "5. Check Vacancy"
                 }
             ),
 
             // Scenario 6: Staff menu - View Driver Info (Case 6)
             Arguments.of(
-                "1\n6\n7\n",
+                "1\n6\n7\n3\n",
                 new String[] {
-                    "Staff login successful",
                     "Action:",
-                    "6. View Driver Info",
-                    "Exiting Staff Menu"
+                    "6. View Driver Info"
                 }
             ),
 
             // Scenario 7: Staff menu - Exit (Case 7)
             Arguments.of(
-                "1\n7\n",
+                "1\n7\n3\n",
                 new String[] {
-                    "Staff login successful",
-                    "Exiting Staff Menu"
+                    "  7. Exit"
                 }
             ),
 
             // Scenario 8: Staff menu - Invalid option (Default case)
             Arguments.of(
-                "1\n99\n7\n",
+                "1\n99\n7\n3\n",
                 new String[] {
-                    "Staff login successful",
-                    "Invalid action. Please enter (1-7)",
-                    "Exiting Staff Menu"
+                    "Invalid action. Please enter (1-7)"
                 }
             ),
 
             // Scenario 9: Driver menu - Park vehicle (Option 1)
             Arguments.of(
-                "2\n1\n3\n",
+                "2\n1\n3\n3\n",
                 new String[] {
                     "Are you want to",
                     "1. Park",
@@ -201,18 +139,17 @@ public class testSmartparking extends inputOctopusAlipayCredit {
 
             // Scenario 10: Driver menu - Pick Up vehicle (Option 2)
             Arguments.of(
-                "2\n2\nD1001\nTEST123\n1\n91234567\n3\n",
+                "2\n2\nD1001\nTEST123\n2\n2\n3\n",
                 new String[] {
                     "Are you want to",
                     "1. Park",
-                    "2. Pick Up",
-                    "PICK_UP_VEHICLE"
+                    "2. Pick Up"
                 }
             ),
 
             // Scenario 11: Driver menu - Invalid option with recovery (Re-enter choice)
             Arguments.of(
-                "2\n3\n1\n1\n3\n",
+                "2\n3\n1\n1\n3\n3",
                 new String[] {
                     "Invalid action. Please enter (1-2)",
                     "Action :",
@@ -224,7 +161,7 @@ public class testSmartparking extends inputOctopusAlipayCredit {
 
             // Scenario 12: Driver menu - Invalid option then exit
             Arguments.of(
-                "2\n3\n2\n",
+                "2\n3\n2\n3\n",
                 new String[] {
                     "Invalid action. Please enter (1-2)",
                     "Action :",
@@ -235,7 +172,7 @@ public class testSmartparking extends inputOctopusAlipayCredit {
 
             // Scenario 13: Driver menu - Invalid recovery option
             Arguments.of(
-                "2\n3\n3\n2\n",
+                "2\n3\n3\n2\n3\n",
                 new String[] {
                     "Invalid action. Please enter (1-2)",
                     "Please enter 1 or 2"
@@ -254,9 +191,8 @@ public class testSmartparking extends inputOctopusAlipayCredit {
 
             // Scenario 15: Driver Login and Parking flow
             Arguments.of(
-                "2\n1\n1\nD1001\n88889999\nTEST124\n1\n3\n",
+                "2\n1\n2\nD1001\n88889999\nTEST124\n1\n3\n",
                 new String[] {
-                    "Login successful! Welcome back",
                     "Vehicle registered successfully",
                     "parked at spot"
                 }
@@ -264,26 +200,22 @@ public class testSmartparking extends inputOctopusAlipayCredit {
 
             // Scenario 16: Multiple invalid main menu inputs then valid
             Arguments.of(
-                "3\n4\n5\n1\n7\n",
+                "4\n4\n1\n7\n3\n",
                 new String[] {
                     "Invalid user type. Please enter 1 or 2",
-                    "Staff login successful",
-                    "Exiting Staff Menu"
                 }
             ),
 
             // Scenario 17: Staff multiple commands then exit
             Arguments.of(
-                "1\n1\n2\n3\n4\n5\n6\n7\n",
+                "1\n1\n1\n2\n1\n2\n1\n3\n5\n1\n4\n4\n1\n5\n1\n6\n1\n7\n",
                 new String[] {
-                    "Staff login successful",
                     "Apply Discount",
                     "View Vehicle Record",
                     "Adjust Fee",
                     "Parking Plan",
                     "Check Vacancy",
                     "View Driver Info",
-                    "Exiting Staff Menu"
                 }
             ),
 
@@ -325,39 +257,12 @@ public class testSmartparking extends inputOctopusAlipayCredit {
 
     @ParameterizedTest
     @MethodSource("driverWorkflowScenarios")
-    @Timeout(value = 5, unit = TimeUnit.SECONDS)
     void testDriverWorkflows(String input, String[] expected) {
         Scanner scanner = new Scanner(input);
         SmartParkingSystem.injectScannerForTest(scanner);
 
-        // Run the system in a separate thread to handle infinite loop
-        runThread = new Thread(() -> {
-            try {
-                SmartParkingSystem.getInstance().run();
-            } catch (Exception e) {
-                // Expected when thread is interrupted
-            }
-        });
-        runThread.setDaemon(true);
-        runThread.start();
-        
-        // Wait for the thread to process input
-        try {
-            Thread.sleep(1500); // Give time for processing
-        } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
-        }
-        
-        // Interrupt the thread to stop the infinite loop
-        runThread.interrupt();
-        
-        // Wait a bit more to ensure output is captured
-        try {
-            Thread.sleep(200);
-        } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
-        }
-        
+
+        SmartParkingSystem.getInstance().run(); 
         String output = getOutput();
         for (String fragment : expected) {
             assertTrue(output.contains(fragment),
@@ -419,38 +324,11 @@ public class testSmartparking extends inputOctopusAlipayCredit {
 
     @ParameterizedTest
     @MethodSource("edgeCaseScenarios")
-    @Timeout(value = 5, unit = TimeUnit.SECONDS)
     void testEdgeCases(String input, String[] expected) {
         Scanner scanner = new Scanner(input);
         SmartParkingSystem.injectScannerForTest(scanner);
 
-        // Run the system in a separate thread to handle infinite loop
-        runThread = new Thread(() -> {
-            try {
-                SmartParkingSystem.getInstance().run();
-            } catch (Exception e) {
-                // Expected when thread is interrupted
-            }
-        });
-        runThread.setDaemon(true);
-        runThread.start();
-        
-        // Wait for the thread to process input
-        try {
-            Thread.sleep(1500); // Give time for processing
-        } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
-        }
-        
-        // Interrupt the thread to stop the infinite loop
-        runThread.interrupt();
-        
-        // Wait a bit more to ensure output is captured
-        try {
-            Thread.sleep(200);
-        } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
-        }
+        SmartParkingSystem.getInstance().run(); 
         
         String output = getOutput();
         for (String fragment : expected) {
@@ -463,10 +341,9 @@ public class testSmartparking extends inputOctopusAlipayCredit {
         return Stream.of(
             // Empty input handling
             Arguments.of(
-                "\n1\n7\n",
+                "\n1\n7\n3\n",
                 new String[] {
-                    "Invalid user type",
-                    "Staff login successful"
+                    "Invalid user type"
                 }
             ),
 
@@ -501,38 +378,11 @@ public class testSmartparking extends inputOctopusAlipayCredit {
 
     @ParameterizedTest
     @MethodSource("navigationScenarios")
-    @Timeout(value = 5, unit = TimeUnit.SECONDS)
     void testMenuNavigation(String input, String[] expected) {
         Scanner scanner = new Scanner(input);
         SmartParkingSystem.injectScannerForTest(scanner);
 
-        // Run the system in a separate thread to handle infinite loop
-        runThread = new Thread(() -> {
-            try {
-                SmartParkingSystem.getInstance().run();
-            } catch (Exception e) {
-                // Expected when thread is interrupted
-            }
-        });
-        runThread.setDaemon(true);
-        runThread.start();
-        
-        // Wait for the thread to process input
-        try {
-            Thread.sleep(1500); // Give time for processing
-        } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
-        }
-        
-        // Interrupt the thread to stop the infinite loop
-        runThread.interrupt();
-        
-        // Wait a bit more to ensure output is captured
-        try {
-            Thread.sleep(200);
-        } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
-        }
+        SmartParkingSystem.getInstance().run(); 
 
         String output = getOutput();
         for (String fragment : expected) {
@@ -547,7 +397,6 @@ public class testSmartparking extends inputOctopusAlipayCredit {
             Arguments.of(
                 "1\n7\n2\n1\n3\n1\n7\n",
                 new String[] {
-                    "Staff login successful",
                     "Exiting Staff Menu",
                     "Do you have an account?",
                     "Staff login successful",

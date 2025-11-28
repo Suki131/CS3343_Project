@@ -18,10 +18,7 @@ public class PaymentInvoker {
 
     public boolean executeCommand(String cmdName, double amount, Ticket ticket) {
         PaymentProcessor paymentProcessor = commandList.get(cmdName);
-        if (paymentProcessor != null) {
-            return paymentProcessor.processPayment(cmdName, amount, ticket);
-        }
-        return false;
+        return paymentProcessor.processPayment(cmdName, amount, ticket);
     }
 
     public static PaymentInvoker getInstance() {

@@ -27,7 +27,8 @@ public class testCmdApplyDiscount extends inputOctopusAlipayCredit {
     private Vehicle vehicle3;
     private Vehicle vehicle4;
     private Vehicle vehicle5;
-    private ParkingSpot parkingspot1;
+    private ParkingSpot parkingspot1;;
+    private ParkingSpot parkingspot2;
     private ParkingSpot parkingspot3;
     private ParkingSpot parkingspot4;
     private ParkingSpot parkingspot5;

@@ -18,10 +18,6 @@ public class CommandInvoker {
 
     public void executeCommand(String cmdName) {
         Command command = CommandList.get(cmdName);
-        if (command != null) {
-            command.execute(cmdName);
-        } else {
-            System.out.println("Invalid command: " + cmdName);
-        }
+        command.execute(cmdName);
     }
 }
