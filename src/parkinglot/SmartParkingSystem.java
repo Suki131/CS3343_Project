@@ -10,6 +10,9 @@ public class SmartParkingSystem {
     }
     
     public static Scanner getScanner() {
+        if (getInstance().scanner == null) {
+            getInstance().scanner = new Scanner(System.in);
+        }
     	return getInstance().scanner;
     }
     
@@ -136,7 +139,7 @@ public class SmartParkingSystem {
         System.out.println("Parking Lot Management System!");
         while (true) {
 
-            System.out.print("Are you\n  1. Staff\n  2. Driver\nPlease Enter your Role (1-2): ");
+            System.out.print("Are you\n  1. Staff\n  2. Driver\n  3. Exit\nPlease Enter your Role (1-3): ");
             String userType = scanner.nextLine();
 
             if (userType.equalsIgnoreCase("1")) {
