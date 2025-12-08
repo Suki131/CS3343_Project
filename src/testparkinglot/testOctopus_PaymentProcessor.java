@@ -12,7 +12,7 @@ import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class testOctopus_PaymentProcessor extends inputOctopusAlipayCredit {
+public class testOctopus_PaymentProcessor extends inputStreamSetUp {
 
     private Ticket ticket1;
 

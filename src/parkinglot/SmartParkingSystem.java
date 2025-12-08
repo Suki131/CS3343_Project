@@ -10,9 +10,6 @@ public class SmartParkingSystem {
     }
     
     public static Scanner getScanner() {
-    	if (getInstance().scanner == null) {
-    		getInstance().scanner = new Scanner(System.in);
-    	}
     	return getInstance().scanner;
     }
     
@@ -125,9 +122,7 @@ public class SmartParkingSystem {
         StringBuilder line = new StringBuilder();
         for (char c : text.toUpperCase().toCharArray()) {
             int idx = chars.indexOf(c);
-            if (idx != -1) {
-                line.append(letters[idx][0][row]).append(" ");
-            }
+            line.append(letters[idx][0][row]).append(" ");
         }
         System.out.println(line.toString().trim());
     }

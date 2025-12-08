@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 import java.util.Scanner;
 import java.util.stream.Stream;
 
-public class testPaymentInvoker extends inputOctopusAlipayCredit {
+public class testPaymentInvoker extends inputStreamSetUp {
 
     private PaymentInvoker invoker;
     private Ticket ticket1;

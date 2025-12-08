@@ -14,7 +14,7 @@ import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class testCreditCard_PaymentProcessor extends inputOctopusAlipayCredit {
+public class testCreditCard_PaymentProcessor extends inputStreamSetUp {
 
     private Ticket ticket1;
 

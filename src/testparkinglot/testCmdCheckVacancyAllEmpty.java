@@ -12,7 +12,7 @@ import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class testCmdCheckVacancyAllEmpty extends inputOctopusAlipayCredit {
+public class testCmdCheckVacancyAllEmpty extends inputStreamSetUp {
 
     private CmdCheckVacancy cmd;
     private Staff staff;
@@ -56,7 +56,7 @@ public class testCmdCheckVacancyAllEmpty extends inputOctopusAlipayCredit {
 
         for (String expected : expectedOutputs) {
             assertTrue(output.contains(expected), 
-                "Missing expected output: " + expected);
+                "Missing expected output: " + expected + "\nActual Output: + " + output);
         }
         
         // Verify all spots show as Available

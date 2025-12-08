@@ -5,7 +5,9 @@ import org.junit.jupiter.api.Test;
 import parkinglot.*;
 import static org.junit.jupiter.api.Assertions.*;
 
-public class testParkingSpot extends inputOctopusAlipayCredit {
+import org.junit.jupiter.api.AfterEach;
+
+public class testParkingSpot extends inputStreamSetUp {
 
     private Vehicle vehicle2;
     private DriverManager drivermanager;
@@ -16,6 +18,16 @@ public class testParkingSpot extends inputOctopusAlipayCredit {
         drivermanager = DriverManager.getInstance();
         vehicle2 = drivermanager.findVehicleByLicense("XY789");
     }
+    
+    @AfterEach
+    void tearDown() {
+    	var allSpots = ParkingManager.getAllSpots();
+        for (var spots : allSpots.values()) {
+            for (ParkingSpot spot : spots) {
+                spot.removeVehicle();
+            }
+        }
+    }
 
     @Test
     void assignVehicleNotNull() {
@@ -25,6 +37,7 @@ public class testParkingSpot extends inputOctopusAlipayCredit {
         assertEquals(vehicle2, spot.getParkedVehicle());
         assertEquals("A6", spot.getSpotID());
         assertEquals(ParkingSpotType.VAN_SPOT, spot.getType());
+        spot.removeVehicle();
     }
 
     @Test
@@ -35,6 +48,7 @@ public class testParkingSpot extends inputOctopusAlipayCredit {
         assertNull(spot.getParkedVehicle());
         assertEquals("A7", spot.getSpotID());
         assertEquals(ParkingSpotType.PRIVATE_SPOT, spot.getType());
+        spot.removeVehicle();
     }
 
     @Test
@@ -46,6 +60,7 @@ public class testParkingSpot extends inputOctopusAlipayCredit {
         assertFalse(spot.isOccupied());
         assertEquals("A8", spot.getSpotID());
         assertEquals(ParkingSpotType.TRUCK_3_5T_SPOT, spot.getType());
+        spot.removeVehicle();
     }
 
     @Test
@@ -58,5 +73,6 @@ public class testParkingSpot extends inputOctopusAlipayCredit {
         assertNull(spot.getParkedVehicle());
         assertEquals("A9", spot.getSpotID());
         assertEquals(ParkingSpotType.TRUCK_5_5T_SPOT, spot.getType());
+        spot.removeVehicle();
     }
 }

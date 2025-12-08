@@ -8,7 +8,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.io.PrintStream;
 
-public abstract class inputOctopusAlipayCredit {
+public abstract class inputStreamSetUp {
 
     private final PrintStream originalOut = System.out;
     private final InputStream originalIn = System.in;
@@ -35,9 +35,5 @@ public abstract class inputOctopusAlipayCredit {
 
     protected void resetOutput() {
         outContent.reset();
-    }
-
-    protected void setInput(String input) {
-        System.setIn(new ByteArrayInputStream(input.getBytes()));
     }
 }

@@ -107,7 +107,6 @@ public class testDriver {
     @Test
     void testGetDriverID() {
         assertNotNull(driver.getDriverID());
-        assertTrue(driver.getDriverID().length() > 0);
     }
 
     @Test

@@ -8,7 +8,7 @@ import java.util.Scanner;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class testCmdAdjustFee extends inputOctopusAlipayCredit {
+public class testCmdAdjustFee extends inputStreamSetUp {
 
     private CmdAdjustFee cmd;
     private Staff staff;

@@ -11,7 +11,7 @@ import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class testCmdCheckVacancyOccupiedSpots extends inputOctopusAlipayCredit {
+public class testCmdCheckVacancyOccupiedSpots extends inputStreamSetUp {
 
     private CmdCheckVacancy cmd;
     private Staff staff;
@@ -32,13 +32,10 @@ public class testCmdCheckVacancyOccupiedSpots extends inputOctopusAlipayCredit {
 
         // Setup: Create and occupy some spots
         Driver driver = DriverManager.getInstance().retrieveDriverbyID("1234");
-        if (driver != null) {
-            Vehicle vehicle = driver.retrieveVehicle("AB123");
-            if (vehicle != null) {
-                ParkingSpot spot = ParkingManager.getSpotsByType(ParkingSpotType.PRIVATE_SPOT).get(0);
-                spot.assignVehicle(vehicle);
-            }
-        }
+        Vehicle vehicle = driver.retrieveVehicle("AB123");
+
+        ParkingSpot spot = ParkingManager.getSpotsByType(ParkingSpotType.PRIVATE_SPOT).get(0);
+        spot.assignVehicle(vehicle);
 
         cmd.execute("CHECK_VACANCY", staff);
 

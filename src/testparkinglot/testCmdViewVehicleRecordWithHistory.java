@@ -12,7 +12,7 @@ import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class testCmdViewVehicleRecordWithHistory extends inputOctopusAlipayCredit {
+public class testCmdViewVehicleRecordWithHistory extends inputStreamSetUp {
 
     private CmdViewVehicleRecord cmd;
     private Staff staff;
@@ -37,27 +37,22 @@ public class testCmdViewVehicleRecordWithHistory extends inputOctopusAlipayCredi
 
         // Setup: Create a driver and vehicle with ticket history
         Driver driver = driverManager.retrieveDriverbyID("1234");
-        if (driver != null) {
-            Vehicle vehicle = driver.retrieveVehicle("AB123");
-            if (vehicle != null) {
-                // Create and add tickets to history
-                ParkingSpot spot = new ParkingSpot("PRIVATE_SPOT_1", ParkingSpotType.PRIVATE_SPOT);
-                Ticket ticket1 = new Ticket(vehicle, spot);
-                ticket1.setEntryTime(LocalDateTime.now().minusDays(5));
-                ticket1.setExitTime(LocalDateTime.now().minusDays(5).plusHours(2));
-                ticket1.changeStatus(TicketStatus.PAID);
-                ticket1.setParkingFee(20.0);
-                
-                Ticket ticket2 = new Ticket(vehicle, spot);
-                ticket2.setEntryTime(LocalDateTime.now().minusDays(2));
-                ticket2.setExitTime(LocalDateTime.now().minusDays(2).plusHours(3));
-                ticket2.changeStatus(TicketStatus.PAID);
-                ticket2.setParkingFee(30.0);
-                
-                ticketManager.addTicket(vehicle, ticket1);
-                ticketManager.addTicket(vehicle, ticket2);
-            }
-        }
+        Vehicle vehicle = driver.retrieveVehicle("AB123");
+        ParkingSpot spot = new ParkingSpot("PRIVATE_SPOT_1", ParkingSpotType.PRIVATE_SPOT);
+        Ticket ticket1 = new Ticket(vehicle, spot);
+        ticket1.setEntryTime(LocalDateTime.now().minusDays(5));
+        ticket1.setExitTime(LocalDateTime.now().minusDays(5).plusHours(2));
+        ticket1.changeStatus(TicketStatus.PAID);
+        ticket1.setParkingFee(20.0);
+        
+        Ticket ticket2 = new Ticket(vehicle, spot);
+        ticket2.setEntryTime(LocalDateTime.now().minusDays(2));
+        ticket2.setExitTime(LocalDateTime.now().minusDays(2).plusHours(3));
+        ticket2.changeStatus(TicketStatus.PAID);
+        ticket2.setParkingFee(30.0);
+        
+        ticketManager.addTicket(vehicle, ticket1);
+        ticketManager.addTicket(vehicle, ticket2);
 
         cmd.execute("VIEW_VEHICLE_RECORD", staff);
 

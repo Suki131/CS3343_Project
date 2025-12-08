@@ -48,9 +48,7 @@ public class CmdPickUpVehicle implements DriverCommand {
                         System.out.println("=========================================================================================================");
                         driverCommand.executeCommand("MAKE_PAYMENT", driver);
                         Ticket ticket = driver.getCurrentTicket();
-                        if (ticket.getStatus() == TicketStatus.PAID) {
-                            ticket.changeStatus(TicketStatus.EXITED);
-                        }
+                        ticket.changeStatus(TicketStatus.EXITED);
                         continous1 = false;
                         System.out.println("=========================================================================================================");
                     } else {

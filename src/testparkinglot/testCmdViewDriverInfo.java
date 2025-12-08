@@ -11,7 +11,7 @@ import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class testCmdViewDriverInfo extends inputOctopusAlipayCredit {
+public class testCmdViewDriverInfo extends inputStreamSetUp {
 
     private CmdViewDriverInfo cmd;
     private Staff staff;
@@ -36,7 +36,7 @@ public class testCmdViewDriverInfo extends inputOctopusAlipayCredit {
 
         for (String expected : expectedOutputs) {
             assertTrue(output.contains(expected), 
-                "Missing expected output: " + expected);
+                "Missing expected output: " + expected + "\nActual: " + output);
         }
     }
 

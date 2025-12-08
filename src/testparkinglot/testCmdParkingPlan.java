@@ -10,7 +10,7 @@ import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class testCmdParkingPlan extends inputOctopusAlipayCredit {
+public class testCmdParkingPlan extends inputStreamSetUp {
 
     private CmdParkingPlan cmd;
     private Staff staff;

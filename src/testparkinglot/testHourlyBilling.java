@@ -20,7 +20,7 @@ public class testHourlyBilling {
     @AfterEach
     void tearDown() {
     	hourly_billing = HourlyBilling.getInstance();
-    	hourly_billing.setFeeRate(0.0);
+    	hourly_billing.setFeeRate(5.0);
     }
     
     @Test

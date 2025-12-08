@@ -18,7 +18,7 @@ public class testTicket {
     @BeforeEach
     void setUp() throws Exception {
         driver = new Driver("John", "12345678", MembershipType.MONTHLY, LocalDateTime.now().plusMonths(1));
-        vehicle = new Vehicle("AB123", VehicleType.PRIVATE, driver);
+        vehicle = new Vehicle("AP123", VehicleType.PRIVATE, driver);
         spot = new ParkingSpot("S1", ParkingSpotType.PRIVATE_SPOT);
     }
 
@@ -72,6 +72,7 @@ public class testTicket {
     @Test
     void testCalculateBaseAmountWithRealBillingStrategy() {
         Ticket ticket = new Ticket(vehicle, spot);
+        driver.setMembershipType(MembershipType.NONE);
         ticket.setBillingStrategy(HourlyBilling.getInstance());
         ticket.setEntryTime(LocalDateTime.now().minusHours(2));
         ticket.setExitTime(LocalDateTime.now());

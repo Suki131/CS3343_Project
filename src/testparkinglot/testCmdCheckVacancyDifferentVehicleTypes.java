@@ -12,7 +12,7 @@ import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class testCmdCheckVacancyDifferentVehicleTypes extends inputOctopusAlipayCredit {
+public class testCmdCheckVacancyDifferentVehicleTypes extends inputStreamSetUp {
 
     private CmdCheckVacancy cmd;
     private Staff staff;
@@ -44,22 +44,14 @@ public class testCmdCheckVacancyDifferentVehicleTypes extends inputOctopusAlipay
         var truck35Spots = ParkingManager.getSpotsByType(ParkingSpotType.TRUCK_3_5T_SPOT);
         var truck55Spots = ParkingManager.getSpotsByType(ParkingSpotType.TRUCK_5_5T_SPOT);
         
-        if (!privateSpots.isEmpty()) {
-            Vehicle v1 = new Vehicle("PRIVATE1", VehicleType.PRIVATE, driver1);
-            privateSpots.get(0).assignVehicle(v1);
-        }
-        if (!vanSpots.isEmpty()) {
-            Vehicle v2 = new Vehicle("VAN001", VehicleType.VAN, driver2);
-            vanSpots.get(0).assignVehicle(v2);
-        }
-        if (!truck35Spots.isEmpty()) {
-            Vehicle v3 = new Vehicle("TRUCK35", VehicleType.TRUCK_3_5T, driver3);
-            truck35Spots.get(0).assignVehicle(v3);
-        }
-        if (!truck55Spots.isEmpty()) {
-            Vehicle v4 = new Vehicle("TRUCK55", VehicleType.TRUCK_5_5T, driver4);
-            truck55Spots.get(0).assignVehicle(v4);
-        }
+        Vehicle v1 = new Vehicle("PRIVATE1", VehicleType.PRIVATE, driver1);
+        privateSpots.get(0).assignVehicle(v1);
+        Vehicle v2 = new Vehicle("VAN001", VehicleType.VAN, driver2);
+        vanSpots.get(0).assignVehicle(v2);
+        Vehicle v3 = new Vehicle("TRUCK35", VehicleType.TRUCK_3_5T, driver3);
+        truck35Spots.get(0).assignVehicle(v3);
+        Vehicle v4 = new Vehicle("TRUCK55", VehicleType.TRUCK_5_5T, driver4);
+        truck55Spots.get(0).assignVehicle(v4);
     }
 
     @ParameterizedTest
@@ -78,14 +70,10 @@ public class testCmdCheckVacancyDifferentVehicleTypes extends inputOctopusAlipay
         }
         
         // Verify different vehicle types are shown
-        assertTrue(output.contains("Occupied - PRIVATE1") || output.contains("Occupied -"), 
-            "Should show private vehicle");
-        assertTrue(output.contains("Occupied - VAN001") || output.contains("Occupied -"), 
-            "Should show van vehicle");
-        assertTrue(output.contains("Occupied - TRUCK35") || output.contains("Occupied -"), 
-            "Should show 3.5T truck");
-        assertTrue(output.contains("Occupied - TRUCK55") || output.contains("Occupied -"), 
-            "Should show 5.5T truck");
+        assertTrue(output.contains("Occupied - PRIVATE1"));
+        assertTrue(output.contains("Occupied - VAN001"));
+        assertTrue(output.contains("Occupied - TRUCK35"));
+        assertTrue(output.contains("Occupied - TRUCK55"));
     }
 
     static Stream<Arguments> checkVacancyDifferentVehicleTypes() {

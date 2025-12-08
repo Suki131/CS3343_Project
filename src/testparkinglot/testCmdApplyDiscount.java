@@ -14,7 +14,7 @@ import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class testCmdApplyDiscount extends inputOctopusAlipayCredit {
+public class testCmdApplyDiscount extends inputStreamSetUp {
 
     private CmdApplyDiscount cmd;
     private Staff staff;
@@ -71,8 +71,8 @@ public class testCmdApplyDiscount extends inputOctopusAlipayCredit {
         vehicle5 = drivermanager.findVehicleByLicense("JK789"); //ANNUALLY
         parkingspot1 = ParkingManager.convertVehicleTypeToSpot(vehicle1.getSpec());
         parkingspot1.assignVehicle(vehicle1);
-        parkingspot1 = ParkingManager.convertVehicleTypeToSpot(vehicle2.getSpec());
-        parkingspot1.assignVehicle(vehicle2);
+        parkingspot2 = ParkingManager.convertVehicleTypeToSpot(vehicle2.getSpec());
+        parkingspot2.assignVehicle(vehicle2);
         parkingspot3 = ParkingManager.convertVehicleTypeToSpot(vehicle3.getSpec());
         parkingspot3.assignVehicle(vehicle3);
         parkingspot4 = ParkingManager.convertVehicleTypeToSpot(vehicle4.getSpec());
@@ -95,6 +95,7 @@ public class testCmdApplyDiscount extends inputOctopusAlipayCredit {
 
     @AfterEach
     void tearDown() {
+        driver1.setMembershipType(MembershipType.NONE);
     	parkingspot1.removeVehicle();
     	parkingspot2.removeVehicle();
     	parkingspot3.removeVehicle();

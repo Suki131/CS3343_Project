@@ -11,7 +11,7 @@ import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class testCmdCheckVacancySpotIDFormat extends inputOctopusAlipayCredit {
+public class testCmdCheckVacancySpotIDFormat extends inputStreamSetUp {
 
     private CmdCheckVacancy cmd;
     private Staff staff;
@@ -40,13 +40,13 @@ public class testCmdCheckVacancySpotIDFormat extends inputOctopusAlipayCredit {
         }
         
         // Verify spot ID format (should be like PRIVATE_SPOT_1, VAN_SPOT_1, etc.)
-        assertTrue(output.contains("PRIVATE_SPOT_") || output.contains("PRIVATE_SPOT"), 
+        assertTrue(output.contains("PRIVATE_SPOT_"), 
             "Should contain PRIVATE_SPOT format");
-        assertTrue(output.contains("VAN_SPOT_") || output.contains("VAN_SPOT"), 
+        assertTrue(output.contains("VAN_SPOT_"), 
             "Should contain VAN_SPOT format");
-        assertTrue(output.contains("TRUCK_3_5T_SPOT_") || output.contains("TRUCK_3_5T_SPOT"), 
+        assertTrue(output.contains("TRUCK_3_5T_SPOT_"), 
             "Should contain TRUCK_3_5T_SPOT format");
-        assertTrue(output.contains("TRUCK_5_5T_SPOT_") || output.contains("TRUCK_5_5T_SPOT"), 
+        assertTrue(output.contains("TRUCK_5_5T_SPOT_"), 
             "Should contain TRUCK_5_5T_SPOT format");
     }
 
@@ -57,7 +57,8 @@ public class testCmdCheckVacancySpotIDFormat extends inputOctopusAlipayCredit {
                 new String[] {
                     "========================================= Parking Lot Overview =========================================",
                     "Spot Details:",
-                    "│        Spot ID         │             Status                 │",
+                    "Spot ID",
+                    "Status",
                     "========================================================================================================="
                 }
             )

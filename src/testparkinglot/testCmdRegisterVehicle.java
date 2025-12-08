@@ -11,7 +11,7 @@ import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class testCmdRegisterVehicle extends inputOctopusAlipayCredit {
+public class testCmdRegisterVehicle extends inputStreamSetUp {
 
     private CmdRegisterDriver cmd;
 

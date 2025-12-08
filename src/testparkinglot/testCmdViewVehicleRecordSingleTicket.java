@@ -13,7 +13,7 @@ import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class testCmdViewVehicleRecordSingleTicket extends inputOctopusAlipayCredit {
+public class testCmdViewVehicleRecordSingleTicket extends inputStreamSetUp {
 
     private CmdViewVehicleRecord cmd;
     private Staff staff;

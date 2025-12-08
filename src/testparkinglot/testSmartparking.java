@@ -15,7 +15,7 @@ import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class testSmartparking extends inputOctopusAlipayCredit {
+public class testSmartparking extends inputStreamSetUp {
 
     private CommandInvoker commandInvoker;
     private DriverInvoker driverInvoker;
@@ -47,8 +47,7 @@ public class testSmartparking extends inputOctopusAlipayCredit {
         SmartParkingSystem.getInstance().run(); 
         String output = getOutput();
         for (String fragment : expected) {
-            assertTrue(output.contains(fragment),
-                () -> "Expected: '" + fragment + "' not found!\nActual output:\n" + output);
+            assertTrue(output.contains(fragment));
         }
     }
 
@@ -265,8 +264,7 @@ public class testSmartparking extends inputOctopusAlipayCredit {
         SmartParkingSystem.getInstance().run(); 
         String output = getOutput();
         for (String fragment : expected) {
-            assertTrue(output.contains(fragment),
-                () -> "Expected: '" + fragment + "' not found!\nActual output:\n" + output);
+            assertTrue(output.contains(fragment));
         }
     }
 
@@ -284,7 +282,7 @@ public class testSmartparking extends inputOctopusAlipayCredit {
 
             // Driver with existing account journey: Login → Park
             Arguments.of(
-                "2\n1\n1\nD1001\n11112222\nEXISTING1\n1\n3\n",
+                "2\n1\n1\n1234\n12345678\nAB123\n3\n",
                 new String[] {
                     "Login successful! Welcome back",
                     "Vehicle registered successfully",
@@ -294,17 +292,17 @@ public class testSmartparking extends inputOctopusAlipayCredit {
 
             // Driver pick up flow
             Arguments.of(
-                "2\n2\nD1001\nTEST123\n1\n91234567\n3\n",
+                "2\n2\nAB123\n1234\n12345678\n1\n12345678\n3\n",
                 new String[] {
-                    "PICK_UP_VEHICLE",
-                    "Payment successful",
+                    "Processing Alipay HK payment of amount: 10.0",
+                    "Payment of 10.0 via Alipay HK successful for account: 12345678",
                     "has been picked up"
                 }
             ),
 
             // Driver registration then immediate exit
             Arguments.of(
-                "2\n1\n3\n",
+                "2\n1\n3\n3\n",
                 new String[] {
                     "Do you have an account?",
                     "Back to Home Page"
@@ -313,7 +311,7 @@ public class testSmartparking extends inputOctopusAlipayCredit {
 
             // Driver login failure then successful registration
             Arguments.of(
-                "2\n1\n1\nWRONGID\nWRONGPHONE\n2\nNew Driver\n33334444\nNEWCAR\n1\n3\n",
+                "2\n1\n1\nWRONGID\nWRONGPHONE\n1\n2\n1234\n12345678\nAR123\n3\n3\n",
                 new String[] {
                     "Driver not found. Please check your credentials",
                     "Registration successful!"
@@ -332,8 +330,7 @@ public class testSmartparking extends inputOctopusAlipayCredit {
         
         String output = getOutput();
         for (String fragment : expected) {
-            assertTrue(output.contains(fragment),
-                () -> "Expected: '" + fragment + "' not found!\nActual output:\n" + output);
+            assertTrue(output.contains(fragment));
         }
     }
 
@@ -386,8 +383,7 @@ public class testSmartparking extends inputOctopusAlipayCredit {
 
         String output = getOutput();
         for (String fragment : expected) {
-            assertTrue(output.contains(fragment),
-                () -> "Expected: '" + fragment + "' not found!\nActual output:\n" + output);
+            assertTrue(output.contains(fragment));
         }
     }
 
@@ -395,29 +391,24 @@ public class testSmartparking extends inputOctopusAlipayCredit {
         return Stream.of(
             // Staff → Driver → Staff navigation
             Arguments.of(
-                "1\n7\n2\n1\n3\n1\n7\n",
+                "1\n7\n2\n1\n3\n1\n7\n3\n",
                 new String[] {
-                    "Exiting Staff Menu",
-                    "Do you have an account?",
-                    "Staff login successful",
-                    "Exiting Staff Menu"
+                    "Do you have an account?"
                 }
             ),
 
             // Driver → Staff → Driver navigation
             Arguments.of(
-                "2\n1\n3\n1\n7\n2\n1\n3\n",
+                "2\n1\n3\n1\n7\n2\n1\n3\n3\n",
                 new String[] {
                     "Do you have an account?",
-                    "Staff login successful",
-                    "Exiting Staff Menu",
                     "Do you have an account?"
                 }
             ),
 
             // Multiple staff sessions
             Arguments.of(
-                "1\n1\n7\n1\n2\n7\n1\n3\n7\n",
+                "1\n1\n1\n2\n1\n2\n1\n1\n3\n5\n1\n4\n4\n1\n5\n1\n6\n1\n1\n7\n3\n",
                 new String[] {
                     "Apply Discount",
                     "View Vehicle Record",

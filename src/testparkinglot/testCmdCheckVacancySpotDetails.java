@@ -11,7 +11,7 @@ import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class testCmdCheckVacancySpotDetails extends inputOctopusAlipayCredit {
+public class testCmdCheckVacancySpotDetails extends inputStreamSetUp {
 
     private CmdCheckVacancy cmd;
     private Staff staff;
@@ -22,6 +22,14 @@ public class testCmdCheckVacancySpotDetails extends inputOctopusAlipayCredit {
         cmd = new CmdCheckVacancy();
         staff = new Staff("STAFF001", "Test Staff");
         SmartParkingSystem.injectScannerForTest(new Scanner(""));
+        
+
+        var allSpots = ParkingManager.getAllSpots();
+        for (var spots : allSpots.values()) {
+            for (ParkingSpot spot : spots) {
+                spot.removeVehicle();
+            }
+        }
     }
 
     @ParameterizedTest
@@ -36,7 +44,7 @@ public class testCmdCheckVacancySpotDetails extends inputOctopusAlipayCredit {
 
         for (String expected : expectedOutputs) {
             assertTrue(output.contains(expected), 
-                "Missing expected output: " + expected);
+                "Missing expected output: " + expected + "\nActual: " + output);
         }
     }
 
@@ -46,7 +54,8 @@ public class testCmdCheckVacancySpotDetails extends inputOctopusAlipayCredit {
                 "",
                 new String[] {
                     "┌────────────────────────┬────────────────────────────────────┐",
-                    "│        Spot ID         │             Status                 │",
+                    "Spot ID",
+                    "Status",
                     "├────────────────────────┼────────────────────────────────────┤",
                     "│",
                     "│",

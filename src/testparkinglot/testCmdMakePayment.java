@@ -13,7 +13,7 @@ import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class testCmdMakePayment extends inputOctopusAlipayCredit {
+public class testCmdMakePayment extends inputStreamSetUp {
 
     private CmdMakePayment cmd;
     private Driver driver;

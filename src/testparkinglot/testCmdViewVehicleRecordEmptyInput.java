@@ -11,7 +11,7 @@ import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class testCmdViewVehicleRecordEmptyInput extends inputOctopusAlipayCredit {
+public class testCmdViewVehicleRecordEmptyInput extends inputStreamSetUp {
 
     private CmdViewVehicleRecord cmd;
     private Staff staff;

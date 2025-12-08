@@ -11,7 +11,7 @@ import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class testCmdCheckVacancyAllSpotTypes extends inputOctopusAlipayCredit {
+public class testCmdCheckVacancyAllSpotTypes extends inputStreamSetUp {
 
     private CmdCheckVacancy cmd;
     private Staff staff;
@@ -35,18 +35,13 @@ public class testCmdCheckVacancyAllSpotTypes extends inputOctopusAlipayCredit {
         String output = getOutput();
 
         // Verify all spot types are displayed
-        assertTrue(output.contains("Normal Spot") || output.contains("PRIVATE_SPOT"), 
-            "Should display Normal Spot");
-        assertTrue(output.contains("3.5T Truck Spot") || output.contains("TRUCK_3_5T_SPOT"), 
-            "Should display 3.5T Truck Spot");
-        assertTrue(output.contains("5.5T Truck Spot") || output.contains("TRUCK_5_5T_SPOT"), 
-            "Should display 5.5T Truck Spot");
-        assertTrue(output.contains("Van Spot") || output.contains("VAN_SPOT"), 
-            "Should display Van Spot");
+        assertTrue(output.contains("Normal Spot"));
+        assertTrue(output.contains("3.5T Truck Spot"));
+        assertTrue(output.contains("5.5T Truck Spot"));
+        assertTrue(output.contains("Van Spot"));
 
         for (String expected : expectedOutputs) {
-            assertTrue(output.contains(expected), 
-                "Missing expected output: " + expected);
+            assertTrue(output.contains(expected));
         }
     }
 

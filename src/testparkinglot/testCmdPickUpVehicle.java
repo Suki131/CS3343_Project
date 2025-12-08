@@ -10,7 +10,7 @@ import java.util.Scanner;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class testCmdPickUpVehicle extends inputOctopusAlipayCredit {
+public class testCmdPickUpVehicle extends inputStreamSetUp {
 
     private CmdPickUpVehicle cmd;
 
